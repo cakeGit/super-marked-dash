@@ -1,5 +1,5 @@
-theres some random changes and moving images so dont just copy paste you might miss stuff, go through the attatched file if you dont have any changes just download the zip
-[DOWNLOAD FREE NO VIRUS](https://github.com/cakeGit/super-marked-dash/archive/refs/heads/main.zip)
+theres some random changes and moving images so dont just copy paste you might miss stuff, go through the attatched file if you dont have any changes just download the zip<br\>
+[DOWNLOAD FREE NO VIRUS](https://github.com/cakeGit/super-marked-dash/archive/refs/heads/main.zip) (or just click code > download .zip)
 
 # 1) why movement wasnt workign
 python is weird, so functions cant access variables outside unless you use<br/>
