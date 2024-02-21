@@ -28,3 +28,6 @@ so, to fix this, you make a movement a vector, then do math shit
         userX += movementVector[0]
         userY += movementVector[1]
 ```
+3) fixing movement speed
+since the main loop runs whenever it feels like it, its important to add a sleep timer, so that it will run at maximum 30fps (ill do 35 cause its a nicer number)
+1/35 = 0.025s per frame
