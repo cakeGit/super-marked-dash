@@ -17,20 +17,20 @@ Cashier = pygame.image.load("cashier .png")
 Island = pygame.image.load("BrownIsland.png")
 RShelf = pygame.image.load("RotatedShelf.png")
 Player = pygame.image.load("user.png")
-Grape1 = pygame.image.load("grapes.png")
-WMelon = pygame.image.load("watermelon.png")
-Pep = pygame.image.load("Pepper.png")
-Carrot = pygame.image.load("carrots.png")
-Corn = pygame.image.load("Corn.png")
-SweetP = pygame.image.load("sweet-potato.png")
-Bread = pygame.image.load("bread.png")
-Butter = pygame.image.load("butter.png")
-Eggs = pygame.image.load ("egg.png")
-Milk = pygame.image.load ("milk.png")
-Syrup = pygame.image.load ("maple-syrup.png")
-Soda = pygame.image.load ("soda.png")
-Mango = pygame.image.load("mango.png")
-Onion = pygame.image.load("onion.png")
+# Grape1 = pygame.image.load("grapes.png")
+# WMelon = pygame.image.load("watermelon.png")
+# Pep = pygame.image.load("Pepper.png")
+# Carrot = pygame.image.load("carrots.png")
+# Corn = pygame.image.load("Corn.png")
+# SweetP = pygame.image.load("sweet-potato.png")
+# Bread = pygame.image.load("bread.png")
+# Butter = pygame.image.load("butter.png")
+# Eggs = pygame.image.load ("egg.png")
+# Milk = pygame.image.load ("milk.png")
+# Syrup = pygame.image.load ("maple-syrup.png")
+# Soda = pygame.image.load ("soda.png")
+# Mango = pygame.image.load("mango.png")
+# Onion = pygame.image.load("onion.png")
 background = (255,255,0) 
 
 userX_vel = 10
@@ -63,11 +63,89 @@ def movement():
     if (magnitude != 0):
         movementVector = (movementVector[0]/magnitude, movementVector[1]/magnitude)
 
+        movementSpeed = 5
+        movementVector = (movementVector[0]*movementSpeed, movementVector[1]*movementSpeed)
+
         #Apply
         userX += movementVector[0]
         userY += movementVector[1]
-    
-    
+
+#Store thhe images
+itemIcons = {}
+
+class StoreItem():
+    def __init__(self, itemType, pos):
+        self.itemType = itemType
+        self.pos = pos
+
+    #If the image is not loaded, load it and save to itemIcons, then draw
+    def draw(self, screen):
+        if not (self.itemType in itemIcons):
+            #Load the image
+            itemIcons[self.itemType] = pygame.image.load("items/" + self.itemType + ".png")
+        screen.blit(itemIcons[self.itemType], self.pos)
+
+#Remvove an item from here if you pick it up
+items = [
+    StoreItem("grapes", (810,27)),
+    StoreItem("grapes", (830,27)),
+    StoreItem("grapes", (850,27)),
+    StoreItem("grapes", (870,27)),
+
+    StoreItem("watermelon", (810,68)),
+    StoreItem("watermelon", (830,68)),
+    StoreItem("watermelon", (850,68)),
+    StoreItem("watermelon", (870,68)),
+
+    StoreItem("Pepper", (710,27)),
+    StoreItem("Pepper", (730,27)),
+    StoreItem("Pepper", (750,27)),
+    StoreItem("Pepper", (770,27)),
+
+    StoreItem("carrots", (710,68)),
+    StoreItem("carrots", (730,68)),
+    StoreItem("carrots", (750,68)),
+    StoreItem("carrots", (770,68)),
+
+    StoreItem("Corn", (615,27)),
+    StoreItem("Corn", (635,27)),
+    StoreItem("Corn", (655,27)),
+    StoreItem("Corn", (675,27)),
+
+    StoreItem("sweet-potato", (615,68)),
+    StoreItem("sweet-potato", (635,68)),
+    StoreItem("sweet-potato", (655,68)),
+    StoreItem("sweet-potato", (675,68)),
+
+    StoreItem("bread", (520,27)),
+    StoreItem("bread", (540,27)),
+    StoreItem("bread", (560,27)),
+    StoreItem("bread", (580,27)),
+
+    StoreItem("butter", (520,68)),
+    StoreItem("butter", (540,68)),
+    StoreItem("butter", (560,68)),
+    StoreItem("butter", (580,68)),
+
+    StoreItem("milk", (427,27)),
+    StoreItem("milk", (447,27)),
+    StoreItem("milk", (467,27)),
+    StoreItem("milk", (487,27)),
+
+    StoreItem("egg", (440,68)),
+    StoreItem("egg", (480,68)),
+
+    StoreItem("maple-syrup", (330,27)),
+    StoreItem("maple-syrup", (350,27)),
+    StoreItem("maple-syrup", (370,27)),
+    StoreItem("maple-syrup", (390,27)),
+
+    StoreItem("soda", (335,68)),
+    StoreItem("soda", (355,68)),
+    StoreItem("soda", (375,68)),
+    StoreItem("soda", (395,68))
+]
+
 def draw():
     screen.blit(Floor, (0, 0))
     screen.blit(Shelf, (803,27))
@@ -84,108 +162,12 @@ def draw():
     screen.blit(Island, (450,308))
     screen.blit(RShelf, (824,210))
     screen.blit(RShelf, (824,307))
-    screen.blit(RShelf, (824,404))    
+    screen.blit(RShelf, (824,404))
+
+    for item in items:
+        item.draw(screen)
+
     screen.blit(Player, (userX, userY))
-    #screen blitting the grapes
-    screen.blit(Grape1, (810,27))
-    screen.blit(Grape1, (830,27))
-    screen.blit(Grape1, (850,27))
-    screen.blit(Grape1, (870,27))
-    #screen blitting the melon
-    screen.blit(WMelon, (810,68))
-    screen.blit(WMelon, (830,68))
-    screen.blit(WMelon, (850,68))
-    screen.blit(WMelon, (870,68))
-    #screen blitting the pepper 
-    screen.blit(Pep, (710,27))
-    screen.blit(Pep, (730,27))
-    screen.blit(Pep, (750,27))
-    screen.blit(Pep, (770,27))
-    #screen blitting carrots 
-    screen.blit(Carrot, (710,68))
-    screen.blit(Carrot, (730,68))
-    screen.blit(Carrot, (750,68))
-    screen.blit(Carrot, (770,68))
-    #screen blit corn
-    screen.blit(Corn, (615,27))
-    screen.blit(Corn, (635,27))
-    screen.blit(Corn, (655,27))
-    screen.blit(Corn, (675,27))
-    #screen blit sweet potato
-    screen.blit(SweetP, (615,68))
-    screen.blit(SweetP, (635,68))
-    screen.blit(SweetP, (655,68))
-    screen.blit(SweetP, (675,68))
-
-    #screen blit bread
-    screen.blit(Bread, (520,27))
-    screen.blit(Bread, (540,27))
-    screen.blit(Bread, (560,27))
-    screen.blit(Bread, (580,27))
-    #screen blit butter
-    screen.blit(Butter, (520,68))
-    screen.blit(Butter, (540,68))
-    screen.blit(Butter, (560,68))
-    screen.blit(Butter, (580,68))
-
-    #screen blit milk
-    screen.blit(Milk, (427,27))
-    screen.blit(Milk, (447,27))
-    screen.blit(Milk, (467,27))
-    screen.blit(Milk, (487,27))
-    #screen blit egg
-    screen.blit(Eggs, (440,68))
-    screen.blit(Eggs, (480,68))
-
-    #screen blit syrup
-    screen.blit(Syrup, (330,27))
-    screen.blit(Syrup, (350,27))
-    screen.blit(Syrup, (370,27))
-    screen.blit(Syrup, (390,27))
-    #screen blit soda
-    screen.blit(Soda, (335,68))
-    screen.blit(Soda, (355,68))
-    screen.blit(Soda, (375,68))
-    screen.blit(Soda, (395,68))
-
-    #screen blit onion
-    #screen.blit(Onion, (,))
-   # screen.blit(Onion, (,))
-
-    #screen blit mango
-    #screen.blit(Mango, (,))
-   # screen.blit(Mango, (,))
-
-
-
-
-
-    
-    
-    #if event.type == pygame.KEYDOWN:
-       #if event.key == pygamne.K_ENTER:
-            #screen.blit(background, (700,400), pygame.Rect(700, 400, 100, 100))
-        
-    
-   
-
-   
-            ##if start_button == pygame.MOUSEBUTTONDOWN:
-                ##if event.type == pygame.MOUSEBUTTONDOWN:
-                    ##btn=pygame.mouse
-                    ##screen. fill((0, 0, 0))
-
-            #pygame.display.set_caption("start")
-            #while running:
-                #Start_mouse_pos = pygame.mouse.get_pos()
-                #sc
-    
-    #screen. fill((0, 0, 0))
-#Level1.Start()
-
-#def settings():
-    
-
 
 class Button():
     def __init__(self, x, y, image, scale):
@@ -234,17 +216,10 @@ settings_button = Button(401, 425, settings_img, 0.8)
 HighScore_button = Button(612, 425, HighScore_img, 0.8)
 Controller_button = Button(200,310, ControllerB, 1)
 
-    
-
 def Settings():
     screen.fill((255, 255, 255))
     screen.blit(ControllerB, (210, 350))
     screen.blit(SoundOn, (440, 365))
-
-
-    
-
-    
 
 #def HScore():
 
@@ -269,23 +244,27 @@ class HealthBar():
 
 health_bar = HealthBar (700,150,200,40,100) 
  
-class character():
-    def _init_(self, x, y):
-        self.x = x
-        self.y = y
+# class character():
+#     def __init__(self, x, y):
+#         self.x = x
+#         self.y = y
 
 
-    #def draw
+#     #def draw
 
-
-        
 running = True
-gameStarted = True
+gameStarted = False
 
 Background = pygame.image.load('menu background.png')
 screen.blit(Background, (0,0))
+
+def current_milli_time():
+    return round(time.time() * 1000)
+
+laggingNotifCooldown = 0
+timeFactor = 1
 while running:
-   
+    startTime = current_milli_time()
     #screen. fill((0, 0, 0))
     Pos = pygame.mouse.get_pos()
 
@@ -317,6 +296,19 @@ while running:
         
         #telling the screen  to change if a change is detected
     pygame.display.update()
+
+    #calculate how long to sleep
+    currentTime = current_milli_time()
+    deltaTime = currentTime - startTime
+    remainingFrameTime = 25 - deltaTime
+    if (remainingFrameTime < 0):
+        if laggingNotifCooldown == 0:
+            laggingNotifCooldown = 50 #Dont scream every tick, it only makes it worse
+            print("Game is lagging! (remaining frame time = " + str(remainingFrameTime) + ", total time = " + str(deltaTime) + ")")
+        else:
+            laggingNotifCooldown -= 1
+    else:
+        time.sleep(remainingFrameTime / 1000) #Convert to seconds
 pygame.quit()
 sys.exit()
 
