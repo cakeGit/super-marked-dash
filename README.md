@@ -78,10 +78,10 @@ def draw():
     screen.blit(RShelf, (824,307))
     screen.blit(RShelf, (824,404))
 
-    screen.blit(Player, (userX, userY))
-
     for item in items:
         item.draw(screen)
+
+    screen.blit(Player, (userX, userY))
 ```
 this list is defined before as 
 ```
