@@ -39,32 +39,33 @@ userX = 417   ##player will not be moving on the Y axis when they start
 
 
 
-def movement(event):
+def movement():
     global userY, userX #F python
-        
-    #if keys[pygame.K_LEFT]:   # if the key a is pressed, user should move to the left by one block
-   #     print("work")
-    #    userX -= userX_vel           
-    if event.type == pygame.KEYDOWN:
-        
-        if event.key == pygame.K_w:   # if the key w is pressed, user should more forward by one block
-                print("w is prresed")
-                userY = userY + 5
-        if event.type == pygame.KEYUP:
-            if event.key == pygame.K_w:   # when the button is released we want the action to stop
-                userY = 0
-        
-        if event.key == pygame.K_s:   # if the key s is pressed, user should move back one block
-                userY = -5
-        if event.type == pygame.KEYUP:
-            if event.key == pygame.K_s:   # when the button is released we want the action to stop
-                   userY = 0
-        
-        if event.key == pygame.K_d:   # if the key d is pressed, user should move to the right one block
-            userX = 5
-        if event.type == pygame.KEYUP:
-            if event.key == pygame.K_d:   # when the button is released we want the action to stop
-                userX = ACTIVEEVENT
+
+    pressedKeys = pygame.key.get_pressed()
+
+    #Python lets you use true or false as equal to 1 or 0
+    movementVector = (
+        pressedKeys[pygame.K_d] - pressedKeys[pygame.K_a],
+        pressedKeys[pygame.K_s] - pressedKeys[pygame.K_w]
+    )
+    #Up = (0, -1)
+    #Down = (0, 1)
+    #Left = (-1, 0)
+    #Right = (1, 0)
+
+    #normalise 🤓
+
+    #Pythagorous
+    magnitude = math.sqrt(pow(movementVector[0], 2) + pow(movementVector[1], 2))
+    #Scale the vector
+
+    if (magnitude != 0):
+        movementVector = (movementVector[0]/magnitude, movementVector[1]/magnitude)
+
+        #Apply
+        userX += movementVector[0]
+        userY += movementVector[1]
     
     
 def draw():
@@ -292,9 +293,9 @@ while running:
     if (gameStarted):
         draw()
 
-    
+    movement()
+
     for event in pygame.event.get():
-        movement(event)
         if event.type == pygame.QUIT:# red X makes the game Quit
             running = False
         if event.type == pygame.MOUSEBUTTONDOWN:
