@@ -1,11 +1,11 @@
 # 1) why movement wasnt workign
-python is weird, so functions cant access variables outside unless
+python is weird, so functions cant access variables outside unless you use<br/>
 `global userX, userY`
 # 2) making movement better and work
-1st thing is that it isnt normalised (🤓)
-which is fancy math word for that you can move 20% faster on diagonals cause of trig idk
-so, to fix this, you make a movement a vector, then do math shit
-(i also changed movement to be per tick and decoupled from events so that you dont have to spam w)
+1st thing is that it isnt normalised (🤓)<br/>
+which is fancy math word for that you can move 20% faster on diagonals cause of trig idk<br/>
+so, to fix this, you make a movement a vector, then do math shit<br/>
+(i also changed movement to be per tick and decoupled from events so that you dont have to spam w)<br/>
 ```
     pressedKeys = pygame.key.get_pressed()
 
@@ -31,9 +31,9 @@ so, to fix this, you make a movement a vector, then do math shit
 
 also you need to call draw every frame in case something changed, the main loop (the while True thing) kept getting changed so probably copy it in
 # 3) fixing movement speed
-since the main loop runs whenever it feels like it, its important to add a sleep timer, so that it will run at maximum 30fps (ill do 35 cause its a nicer number)
-1/35 = 0.025s per frame
-
+since the main loop runs whenever it feels like it, its important to add a sleep timer, so that it will run at maximum 30fps (ill do 35 cause its a nicer number)<br/>
+1/35 = 0.025s per frame<br/>
+<br/>
 tag on this beautiful hunk of code
 ```
     startTime = current_milli_time()
