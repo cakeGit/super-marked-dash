@@ -169,5 +169,6 @@ then, remove it from `items` and add it to an inventory (make this a dictionary 
 <br/>
 # also please split your project into multiple modules so the files dont get too big
 [https://www.w3schools.com/python/python_modules.asp](https://www.w3schools.com/python/python_modules.asp)
+# and put your images in an image folder
 
 ### thats it your safe from my clutches now
