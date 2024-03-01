@@ -20,11 +20,8 @@ Player = pygame.image.load("user.png")
 background = (255,255,0)
 rect = Player.get_rect()
 
-
-
-userY = 535   #player will not be moving on the X axis when they start
-userX = 417   #player will not be moving on the Y axis when they start
-
+userY = 535
+userX = 417
 
 
 def movement():
@@ -37,6 +34,7 @@ def movement():
         pressedKeys[pygame.K_d] - pressedKeys[pygame.K_a],
         pressedKeys[pygame.K_s] - pressedKeys[pygame.K_w]
     )
+    
     #Up = (0, -1)
     #Down = (0, 1)
     #Left = (-1, 0)
