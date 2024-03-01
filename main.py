@@ -138,19 +138,28 @@ class Game():
         self.currentLevel = {}
         self.currentLevelItems = []
 
+        self.audio = True
+        self.music = True
+
     def start(self):
-        print("started game")
+        print("Started game")
         self.inGame = True
         self.currentLevel = levelhandler.allLevels[self.currentLevelIndex]
         self.currentLevelItems = self.currentLevel.createItemSetForGame()
 
+    def toggleAudio(self):
+        self.audio = not self.audio
+        print("Toggled audio: " + str(self.audio))
+    def toggleMusic(self):
+        self.music = not self.music
+        print("Toggled music: " + str(self.music))
 
 game = Game()
 
 menuhandler.setMenu("titleMenu")
 
 while running:
-    menuhandler.drawCurrent(screen)
+    menuhandler.drawCurrent(screen, game)
 
     #Game render loop
     if (game.inGame):
