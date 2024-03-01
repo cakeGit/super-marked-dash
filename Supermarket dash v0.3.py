@@ -15,32 +15,20 @@ Floor = pygame.image.load('Floor.png')
 Shelf = pygame.image.load("brownshelf2.png")
 Cashier = pygame.image.load("cashier .png")
 Island = pygame.image.load("BrownIsland.png")
-RShelf = pygame.image.load("RotatedShelf.png")
+#RShelf = pygame.image.load("RotatedShelf.png")
 Player = pygame.image.load("user.png")
-# Grape1 = pygame.image.load("grapes.png")
-# WMelon = pygame.image.load("watermelon.png")
-# Pep = pygame.image.load("Pepper.png")
-# Carrot = pygame.image.load("carrots.png")
-# Corn = pygame.image.load("Corn.png")
-# SweetP = pygame.image.load("sweet-potato.png")
-# Bread = pygame.image.load("bread.png")
-# Butter = pygame.image.load("butter.png")
-# Eggs = pygame.image.load ("egg.png")
-# Milk = pygame.image.load ("milk.png")
-# Syrup = pygame.image.load ("maple-syrup.png")
-# Soda = pygame.image.load ("soda.png")
-# Mango = pygame.image.load("mango.png")
-# Onion = pygame.image.load("onion.png")
-background = (255,255,0) 
+background = (255,255,0)
+rect = Player.get_rect()
 
-userX_vel = 10
+
+
 userY = 535   #player will not be moving on the X axis when they start
-userX = 417   ##player will not be moving on the Y axis when they start
+userX = 417   #player will not be moving on the Y axis when they start
 
 
 
 def movement():
-    global userY, userX #F python
+    global userY, userX # global to use inside as well as out 
 
     pressedKeys = pygame.key.get_pressed()
 
@@ -53,24 +41,30 @@ def movement():
     #Down = (0, 1)
     #Left = (-1, 0)
     #Right = (1, 0)
+ 
 
-    #normalise 🤓
-
-    #Pythagorous
+    #Pythagorous #w and d 
     magnitude = math.sqrt(pow(movementVector[0], 2) + pow(movementVector[1], 2))
     #Scale the vector
 
     if (magnitude != 0):
         movementVector = (movementVector[0]/magnitude, movementVector[1]/magnitude)
 
-        movementSpeed = 5
+        movementSpeed = 1.2
         movementVector = (movementVector[0]*movementSpeed, movementVector[1]*movementSpeed)
 
         #Apply
         userX += movementVector[0]
         userY += movementVector[1]
 
-#Store thhe images
+    if userX > 860 or userX < 0 or userY > 550 or userY < 0:  # if the user bumps into the borders then they re-spawn at position (400,400) this could be seen as another obstacle
+        userX = 400
+        userY = 400
+
+    
+        
+
+#Store the images
 itemIcons = {}
 
 class StoreItem():
@@ -143,8 +137,127 @@ items = [
     StoreItem("soda", (335,68)),
     StoreItem("soda", (355,68)),
     StoreItem("soda", (375,68)),
-    StoreItem("soda", (395,68))
-]
+    StoreItem("soda", (395,68)),
+
+    StoreItem("onion", (275, 200)),
+    StoreItem("onion", (288, 200)),
+
+    StoreItem("onion", (275, 272)),
+    StoreItem("onion", (288, 272)),
+
+    StoreItem("onion", (260, 220)),
+    StoreItem("onion", (260, 240)),
+    StoreItem("onion", (260, 260)),
+
+
+    StoreItem("onion", (305, 220)),
+    StoreItem("onion", (305, 240)),
+    StoreItem("onion", (305, 260)),
+
+
+    StoreItem("orange", (260, 320)),
+    StoreItem("orange", (260, 340)),
+    StoreItem("orange", (260, 360)),
+
+    StoreItem("orange", (305, 320)),
+    StoreItem("orange", (305, 340)),
+    StoreItem("orange", (305, 360)),
+
+    StoreItem("orange", (275, 305)),
+    StoreItem("orange", (288, 305)),
+
+    StoreItem("orange", (275, 375)),
+    StoreItem("orange", (288, 375)),
+
+
+    StoreItem("strawberry", (490, 220)),
+    StoreItem("strawberry", (490, 240)),
+    StoreItem("strawberry", (490, 260)),
+
+    StoreItem("strawberry", (450, 220)),
+    StoreItem("strawberry", (450, 240)),
+    StoreItem("strawberry", (450, 260)),
+
+    StoreItem("strawberry", (465, 200)),
+    StoreItem("strawberry", (475, 200)),
+
+    StoreItem("strawberry", (465, 272)),
+    StoreItem("strawberry", (475, 272)),
+
+
+    StoreItem("coconut", (490, 320)),
+    StoreItem("coconut", (490, 340)),
+    StoreItem("coconut", (490, 360)),
+
+    StoreItem("coconut", (450, 320)),
+    StoreItem("coconut", (450, 340)),
+    StoreItem("coconut", (450, 360)),
+
+    StoreItem("coconut", (465, 305)),
+    StoreItem("coconut", (475, 305)),
+
+    StoreItem("coconut", (465, 375)),
+    StoreItem("coconut", (475, 375)),
+
+    StoreItem("instant-noodles", (810,155)),
+    StoreItem("instant-noodles", (830,155)),
+    StoreItem("instant-noodles", (850,155)),
+    StoreItem("instant-noodles", (870,155)),
+
+    StoreItem("instant-noodles", (810,196)),
+    StoreItem("instant-noodles", (830,196)),
+    StoreItem("instant-noodles", (850,196)),
+    StoreItem("instant-noodles", (870,196)),
+
+    
+    StoreItem("soy", (710,155)),
+    StoreItem("soy", (730,155)),
+    StoreItem("soy", (750,155)),
+    StoreItem("soy", (770,155)),
+
+    StoreItem("soy", (710,196)),
+    StoreItem("soy", (730,196)),
+    StoreItem("soy", (750,196)),
+    StoreItem("soy", (770,196)),
+
+
+    StoreItem("pasta", (810,324)),
+    StoreItem("pasta", (830,324)),
+    StoreItem("pasta", (850,324)),
+    StoreItem("pasta", (870,324)),
+
+    StoreItem("pasta", (810,280)),
+    StoreItem("pasta", (830,280)),
+    StoreItem("pasta", (850,280)),
+    StoreItem("pasta", (870,280)),
+
+    StoreItem("tomato", (710, 324)),
+    StoreItem("tomato", (730, 324)),
+    StoreItem("tomato", (750, 324)),
+    StoreItem("tomato", (770, 324)),
+
+    StoreItem("tomato", (710, 280)),
+    StoreItem("tomato", (730, 280)),
+    StoreItem("tomato", (750, 280)),
+    StoreItem("tomato", (770, 280)),
+
+    StoreItem("chocolate", (810, 408)),
+    StoreItem("chocolate", (835, 408)),
+    StoreItem("chocolate", (860, 408)),
+
+    StoreItem("chocolate", (810, 452)),
+    StoreItem("chocolate", (835, 452)),
+    StoreItem("chocolate", (860, 452)),
+
+    StoreItem("chocBag", (720, 408)),
+    StoreItem("chocBag", (745, 408)),
+    StoreItem("chocBag", (770, 408)),
+
+    StoreItem("chocBag", (720, 452)),
+    StoreItem("chocBag", (745, 452)),
+    StoreItem("chocBag", (770, 452)),
+    
+ ]
 
 def draw():
     screen.blit(Floor, (0, 0))
@@ -160,9 +273,12 @@ def draw():
     screen.blit(Island, (260,210))
     screen.blit(Island, (450,210))
     screen.blit(Island, (450,308))
-    screen.blit(RShelf, (824,210))
-    screen.blit(RShelf, (824,307))
-    screen.blit(RShelf, (824,404))
+    screen.blit(Shelf, (803,155))
+    screen.blit(Shelf, (708,155))
+    screen.blit(Shelf, (803,283))
+    screen.blit(Shelf, (708,283))
+    screen.blit(Shelf, (803,408))
+    screen.blit(Shelf, (708,408))
 
     for item in items:
         item.draw(screen)
@@ -187,7 +303,7 @@ class Button():
         #get mouse position
         pos = pygame.mouse.get_pos()
         action = False
-        
+       
         #check mouse over and clicked conditions
         if self.rect.collidepoint(pos):
             if pygame.mouse.get_pressed()[0] == 1 and self.clicked == False:
@@ -242,15 +358,7 @@ class HealthBar():
         pygame.draw.rect(surface, "red", (self.x, self.y, self.w, self.h))
         pygame.draw.rect(surface, "green", (self.x, self.y, self.w * ratio, self.h))
 
-health_bar = HealthBar (700,150,200,40,100) 
- 
-# class character():
-#     def __init__(self, x, y):
-#         self.x = x
-#         self.y = y
-
-
-#     #def draw
+health_bar = HealthBar (700,150,200,40,100)
 
 running = True
 gameStarted = False
@@ -258,20 +366,14 @@ gameStarted = False
 Background = pygame.image.load('menu background.png')
 screen.blit(Background, (0,0))
 
-def current_milli_time():
-    return round(time.time() * 1000)
-
-laggingNotifCooldown = 0
-timeFactor = 1
 while running:
-    startTime = current_milli_time()
     #screen. fill((0, 0, 0))
     Pos = pygame.mouse.get_pos()
 
-    #Game render loop
+    #Game render loop  # before screen would be blitted on once, user would not move 
     if (gameStarted):
         draw()
-
+        
     movement()
 
     for event in pygame.event.get():
@@ -282,35 +384,24 @@ while running:
 
                 if start_button.rect.collidepoint(pygame.mouse.get_pos()):
                     gameStarted = True
-                   ####### THIS IS TEMPORARY UNTIL I HAVE LEVELS 
+                   ####### THIS IS TEMPORARY UNTIL I HAVE LEVELS
                 if settings_button.rect.collidepoint(pygame.mouse.get_pos()):
                     Settings()
-                    ####### THIS IS TEMPORARY UNTIL I HAVE LEVELS 
+                    ####### THIS IS TEMPORARY UNTIL I HAVE LEVELS
                 if HighScore_button.rect.collidepoint(pygame.mouse.get_pos()):
                     screen. fill((255, 255, 0))
-                    ####### THIS IS TEMPORARY UNTIL I HAVE LEVELS 
+                    ####### THIS IS TEMPORARY UNTIL I HAVE LEVELS
 
         #draw the health bar -  put ths into
         health_bar.hp = 50 # makes the health bar to 50%
         ##health_bar.draw(screen)
-        
+
+    #if rect.colliderect(Shelf):
+        #py
+        #game.draw.rect(screen, (255, 0, 0,), rect, 4)
+       
         #telling the screen  to change if a change is detected
     pygame.display.update()
 
-    #calculate how long to sleep
-    currentTime = current_milli_time()
-    deltaTime = currentTime - startTime
-    remainingFrameTime = 25 - deltaTime
-    if (remainingFrameTime < 0):
-        if laggingNotifCooldown == 0:
-            laggingNotifCooldown = 50 #Dont scream every tick, it only makes it worse
-            print("Game is lagging! (remaining frame time = " + str(remainingFrameTime) + ", total time = " + str(deltaTime) + ")")
-        else:
-            laggingNotifCooldown -= 1
-    else:
-        time.sleep(remainingFrameTime / 1000) #Convert to seconds
 pygame.quit()
 sys.exit()
-
-
-    

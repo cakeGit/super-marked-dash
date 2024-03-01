@@ -1,0 +1,27 @@
+def current_milli_time():
+    return round(time.time() * 1000)
+
+laggingNotifCooldown = 0
+timeFactor = 1
+while running:
+    startTime = current_milli_time()
+    #screen. fill((0, 0, 0))
+    Pos = pygame.mouse.get_pos()
+
+
+
+
+  pygame.display.update()
+#calculate how long to sleep
+    currentTime = current_milli_time()
+    deltaTime = currentTime - startTime
+    remainingFrameTime = 25 - deltaTime
+    if (remainingFrameTime < 0):
+        if laggingNotifCooldown == 0:
+            laggingNotifCooldown = 50 #Dont scream every tick, it only makes it worse
+            print("Game is lagging! (remaining frame time = " + str(remainingFrameTime) + ", total time = " + str(deltaTime) + ")")
+        else:
+            laggingNotifCooldown -= 1
+    else:
+        time.sleep(remainingFrameTime / 1000) #Convert to seconds
+
