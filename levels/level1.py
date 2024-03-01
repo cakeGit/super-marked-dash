@@ -1,10 +1,10 @@
 from resources import image
-from objects import StoreItem
+from objects import StoreItem, CollideableSprite
 
 Floor = image('Floor.png')
-Shelf = image("brownshelf2.png")
-Cashier = image("cashier .png")
-Island = image("BrownIsland.png")
+# Shelf = image("brownshelf2.png")
+# Cashier = image("cashier .png")
+# Island = image("BrownIsland.png")
 Player = image("user.png")
 
 #This was getting a bit to long
@@ -183,26 +183,37 @@ items = [
     
 ]
 
+collideableSprites = [
+    CollideableSprite("Shelf", (803,27)),
+    CollideableSprite("Shelf", (708,27)),
+    CollideableSprite("Shelf", (613,27)),
+    CollideableSprite("Shelf", (518,27)),
+    CollideableSprite("Shelf", (423,27)),
+    CollideableSprite("Shelf", (328,27)),
+
+    CollideableSprite("Checkout", (0,200)),
+    CollideableSprite("Checkout", (0,300)),
+    
+    CollideableSprite("Island", (260,308)),
+    CollideableSprite("Island", (260,210)),
+    CollideableSprite("Island", (450,210)),
+    CollideableSprite("Island", (450,308)),
+
+    CollideableSprite("Shelf", (803,155)),
+    CollideableSprite("Shelf", (708,155)),
+    CollideableSprite("Shelf", (803,283)),
+    CollideableSprite("Shelf", (708,283)),
+    CollideableSprite("Shelf", (803,408)),
+    CollideableSprite("Shelf", (708,408)),
+]
+
 def createItemSetForGame():
     return items.copy() # Return a copy so that the level can be refilled
 
+def getColliders():
+    return collideableSprites
+
 def drawBackground(screen):
     screen.blit(Floor, (0, 0))
-    screen.blit(Shelf, (803,27))
-    screen.blit(Shelf, (708,27))
-    screen.blit(Shelf, (613,27))
-    screen.blit(Shelf, (518,27))
-    screen.blit(Shelf, (423,27))
-    screen.blit(Shelf, (328,27))
-    screen.blit(Cashier, (0,200))
-    screen.blit(Cashier, (0,300))
-    screen.blit(Island, (260,308))
-    screen.blit(Island, (260,210))
-    screen.blit(Island, (450,210))
-    screen.blit(Island, (450,308))
-    screen.blit(Shelf, (803,155))
-    screen.blit(Shelf, (708,155))
-    screen.blit(Shelf, (803,283))
-    screen.blit(Shelf, (708,283))
-    screen.blit(Shelf, (803,408))
-    screen.blit(Shelf, (708,408))
+    for sprite in collideableSprites:
+        sprite.draw(screen)

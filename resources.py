@@ -14,5 +14,17 @@ def image(str):
 def itemImage(str):
     return image("items/" + str)
 
+def objectImage(str):
+    return image("object/" + str)
+
 def menuImage(str):
     return image("menu/" + str)
+
+def item(str):
+    return ("items/" + str)
+
+def object(str):
+    return ("object/" + str)
+
+def menu(str):
+    return ("menu/" + str)

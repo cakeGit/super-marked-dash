@@ -1,3 +1,6 @@
+#Change this when making buttons so you can see them - disable when you finished
+RENDER_DEBUG_BUTTON_COLLIDERS = True
+
 import pygame
 import menuhandler
 
@@ -13,9 +16,6 @@ class Menu:
 
     def process(self, event, game):
         self.processor(event, game)
-
-#Change this wwhen making buttons so you can see them - disable when you finished
-RENDER_DEBUG_BUTTON_COLLIDERS = True
 
 class Button:
     def __init__(self, rect, onclick):
