@@ -27,7 +27,4 @@ these files hold well, the menus, menusHandler is used to keep track of the hist
 also sry for ruining your code im a massachist im enjoying this too much
 
 ## debug renderers
-theres a few renderes to help with development, first is in menus.py<br/>
-`RENDER_DEBUG_BUTTON_COLLIDERS = True`<br/>
-this makes the menu's buttons have a red outline of what can be clicked<br/>
-as well as the one in playerhandler.py for seeing colliders
+theres a few debug renderers, they are controlled in constants.py, and draw boxes around objects in the world
