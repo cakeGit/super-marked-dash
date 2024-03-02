@@ -1,8 +1,6 @@
-#Change this when making buttons so you can see them - disable when you finished
-RENDER_DEBUG_BUTTON_COLLIDERS = True
-
 import pygame
 import menuhandler
+import constants
 
 from resources import menuImage
 
@@ -23,6 +21,8 @@ class Button:
         self.onclick = onclick
 
 def drawDebugButtonColliders(screen, buttonTable):
+    if (not constants.RENDER_DEBUG_BUTTON_COLLIDERS):
+        return
     for button in buttonTable.values():
         pygame.draw.rect(screen, (255, 0, 0), button.rect, width=1)
 
@@ -109,8 +109,29 @@ def processSettingsMenu(event, game):
     processMenuButtonClicks(event, game, settingsButtons)
     processSimpleReturnButton(event, game)
 
+# Game finished menu
+
+gameFinishedBackground = menuImage("gameover.png")
+
+def startGame(game):
+    game.start()
+    menuhandler.back()
+
+gameFinishedButtons = {
+    "return": Button(pygame.Rect(415, 464, 70, 70), lambda g: menuhandler.setMenu("titleMenu")),
+}
+
+def drawGameFinishedMenu(screen, game):
+    screen.blit(gameFinishedBackground, (0, 0))
+
+    drawDebugButtonColliders(screen, gameFinishedButtons)
+
+def processGameFinishedMenu(event, game):
+    processMenuButtonClicks(event, game, gameFinishedButtons)
+
 
 menus = {
     "titleMenu": Menu(drawTitleMenu, processTitleMenu),
     "settings": Menu(drawSettingsMenu, processSettingsMenu),
+    "gameFinished": Menu(drawGameFinishedMenu, processGameFinishedMenu),
 }

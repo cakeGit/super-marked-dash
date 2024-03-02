@@ -1,13 +1,12 @@
 from resources import image
-from objects import StoreItem, CollideableSprite
+from objects import *
 
 Floor = image('Floor.png')
 # Shelf = image("brownshelf2.png")
 # Cashier = image("cashier .png")
 # Island = image("BrownIsland.png")
-Player = image("user.png")
 
-#This was getting a bit to long
+#This was getting a bit to long so i put it in this file, also you should maybe make a function to make these
 items = [
     StoreItem("grapes", (810,27)),
     StoreItem("grapes", (830,27)),
@@ -180,7 +179,10 @@ items = [
     StoreItem("chocBag", (720, 452)),
     StoreItem("chocBag", (745, 452)),
     StoreItem("chocBag", (770, 452)),
-    
+]
+
+checkoutAreas = [
+    CheckoutArea((0, 150), (150, 350))
 ]
 
 collideableSprites = [
@@ -207,11 +209,25 @@ collideableSprites = [
     CollideableSprite("Shelf", (708,408)),
 ]
 
+# Add colliders for level obstacles like pillars
+colliders = [
+
+]
+
 def createItemSetForGame():
-    return items.copy() # Return a copy so that the level can be refilled
+    newItems = []
+    for item in items:
+        newItems.append(item.clone())
+    return newItems
 
 def getColliders():
-    return collideableSprites
+    return collideableSprites + colliders
+
+def getCheckoutAreas():
+    return checkoutAreas
+
+def getLevelTime():
+    return 15
 
 def drawBackground(screen):
     screen.blit(Floor, (0, 0))

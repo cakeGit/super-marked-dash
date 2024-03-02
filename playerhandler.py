@@ -1,25 +1,38 @@
-#Change this when making level colliders / debugging player movement
-RENDER_PLAYER_COLLIDERS = True
-
 #Handles the player drawing and moving
 
 import pygame
-import math
+from mathutil import *
 from resources import image
+import constants
 
 #Drawing
 
 playerImage = image("user.png")
+cartImage = image("cart.png")
+
+CART_MAX_SLOWDOWN = 0.5
 
 def getPlayerCollisionRect(game):
     return pygame.Rect(game.playerX, game.playerY, 28, 22)
 
-
 def drawPlayer(screen, game):
-    screen.blit(playerImage, (game.playerX-18, game.playerY-42))
-    if (RENDER_PLAYER_COLLIDERS):
+    screen.blit(playerImage, (game.playerX -18, game.playerY -42))
+
+    playerPos = (game.playerX, game.playerY)
+    cartDistance = calcMagnitude(sub(game.cartPos, playerPos))
+    if (cartDistance > 50):
+        game.cartPos = linearInterpolateVector(game.cartPos, (game.playerX, game.playerY), 0.1)
+
+        cartDifference = sub(game.cartPos, playerPos)
+        cartDistance = calcMagnitude(cartDifference)
+        if (cartDistance < 50):
+            game.cartPos = add(playerPos, multiply(cartDifference, 50/cartDistance))
+
+    screen.blit(cartImage, (game.cartPos[0] -18, game.cartPos[1] -42))
+
+    if (constants.RENDER_DEBUG_PLAYER_COLLIDERS):
         pygame.draw.rect(screen, (255, 0, 0), getPlayerCollisionRect(game), width=1)
-        for collideable in game.currentLevel.getColliders():
+        for collideable in game.getCurrentLevelColliders():
             pygame.draw.rect(screen, (0, 0, 255), collideable.getRect(), width=1)
 
 
@@ -27,18 +40,9 @@ def drawPlayer(screen, game):
 
 movementVelocity = (0, 0)
 
-def add(vector1, vector2):
-    return (vector1[0] + vector2[0], vector1[1] + vector2[1])
-
-def mult(vector, scalar):
-    return (vector[0] * scalar, vector[1] * scalar)
-
-def lerp(vector1, vector2, scalar):
-    return add(mult(vector1, 1-scalar), mult(vector2, scalar))
-
 #Calculate how much the player should move by
 def updatePlayer(game):
-    global movementVelocity
+    global movementVelocity, lastMovementDirection
     pressedKeys = pygame.key.get_pressed()
 
     #Python lets you use true or false as equal to 1 or 0
@@ -53,23 +57,26 @@ def updatePlayer(game):
     #Right = (1, 0)
 
     #Pythagorous 
-    magnitude = math.sqrt(pow(movementVector[0], 2) + pow(movementVector[1], 2))
+    magnitude = calcMagnitude(movementVector)
 
     #Check we are moving
     if (magnitude != 0):
         
         #Normalise
-        movementVector = mult(movementVector, 1/magnitude)
+        movementVector = multiply(movementVector, 1/magnitude)
 
-        movementSpeed = 2.5
-        movementVector = mult(movementVector, movementSpeed)
+        baseMovementSpeed = 2.5
+        movementSpeed = linearInterpolateScalar(baseMovementSpeed, baseMovementSpeed * game.cartSpeedModifier, CART_MAX_SLOWDOWN)
 
-    movementVelocity = lerp(movementVelocity, movementVector, 0.15)
+        movementVector = multiply(movementVector, movementSpeed)
+
+    movementVelocity = linearInterpolateVector(movementVelocity, movementVector, 0.15)
 
     movePlayer(movementVelocity, game)
-    # if userX > 860 or userX < 0 or userY > 550 or userY < 0:  # if the user bumps into the borders then they re-spawn at position (400,400) this could be seen as another obstacle
-    #     userX = 400
-    #     userY = 400
+    
+    # Resolve collisions, and resolve again if there might be more
+    while (resolveCollisions(game)):
+        pass
 
 class CollisionContext():
     def __init__(self, collideable, rect, clip, clipArea):
@@ -89,14 +96,16 @@ def resolveCollision(pos, length, colliderPos, colliderLength):
 
 #Moves the player and handles the collsions
 def movePlayer(velocity, game):
-    game.playerX += velocity[0]
-    game.playerY += velocity[1]
+    game.playerX = min(max(0, game.playerX + velocity[0]), 900 - 28)
+    game.playerY = min(max(0, game.playerY + velocity[1]), 613 - 22)
 
+
+def resolveCollisions(game):
     # Resolve collisions
     playerRect = getPlayerCollisionRect(game)
 
     collisions = []
-    for collision in game.currentLevel.getColliders():
+    for collision in game.getCurrentLevelColliders():
         rect = collision.getRect()
         if (playerRect.colliderect(rect)):
             clip = playerRect.clip(rect)
@@ -105,6 +114,7 @@ def movePlayer(velocity, game):
 
     collisions.sort(key=lambda o: -o.clipArea)
 
+    hasResolvedCollision = False
     for collision in collisions:
         playerRect = getPlayerCollisionRect(game)
         rect = collision.rect
@@ -117,4 +127,6 @@ def movePlayer(velocity, game):
             game.playerX = resolveCollision(playerRect.left, playerRect.width, collision.rect.left, collision.rect.width)
         else:
             game.playerY = resolveCollision(playerRect.top, playerRect.height, collision.rect.top, collision.rect.height)
+        hasResolvedCollision = True
+    return hasResolvedCollision
             
