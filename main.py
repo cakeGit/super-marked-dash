@@ -1,6 +1,12 @@
 import pygame
 from pygame.locals import *
 
+# initiating pygame
+pygame.init()
+pygame.font.init()
+
+gameFont = pygame.font.SysFont('Comic Sans MS', 30)
+
 import levelhandler
 import menuhandler
 import playerhandler
@@ -9,12 +15,6 @@ import time
 from mathutil import *
 from resources import *
 from objects import *
-
-# initiating pygame
-pygame.init()
-
-pygame.font.init()
-gameFont = pygame.font.SysFont('Comic Sans MS', 30)
 
 # creating display (x axis, y axis/ width, height)
 screen = pygame.display.set_mode((900,613))
@@ -68,7 +68,7 @@ class Game():
         self.cartPos = (0, 0)
         self.cartSpeedModifier = 1
 
-        self.score = 0
+        self.collectedItems = []
 
         self.cartContents = []
 
@@ -117,7 +117,7 @@ class Game():
 
     def sellCartContents(self):
         for collectedItem in self.cartContents:
-            self.score += collectedItem.getScore()
+            self.collectedItems.append(collectedItem)
         self.cartContents = []
 
     def getRemainingTime(self):
@@ -136,15 +136,17 @@ class Game():
 
 game = Game()
 
-menuhandler.setMenu("titleMenu")
+menuhandler.setMenu("titleMenu", game)
 timerBackground = image("timerbg.png")
 
 running = True
 while running:
+    menuhandler.tickCurrent(game)
+    
     if (game.inGame and game.isTicking):
         if(game.getRemainingTime() < 0):
             game.isTicking = False
-            menuhandler.setMenu("gameFinished")
+            menuhandler.setMenu("gameFinished", game)
 
         playerhandler.updatePlayer(game)
         game.tickCartItems()

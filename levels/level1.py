@@ -227,7 +227,7 @@ def getCheckoutAreas():
     return checkoutAreas
 
 def getLevelTime():
-    return 15
+    return 60
 
 def drawBackground(screen):
     screen.blit(Floor, (0, 0))

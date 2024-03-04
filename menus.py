@@ -1,19 +1,30 @@
 import pygame
 import menuhandler
 import constants
+import random
 
 from resources import menuImage
 
 class Menu:
-    def __init__(self, renderer, processor):
+    def __init__(self, renderer, processor, **kwargs):
         self.renderer = renderer
         self.processor = processor
+        self.initialiser = kwargs.get("initialiser", None)
+        self.ticker = kwargs.get("ticker", None)
 
     def draw(self, screen, game):
         self.renderer(screen, game)
 
     def process(self, event, game):
         self.processor(event, game)
+
+    def initialise(self, game):
+        if (self.initialiser != None):
+            self.initialiser(game)
+
+    def tick(self, game):
+        if (self.ticker != None):
+            self.ticker(game)
 
 class Button:
     def __init__(self, rect, onclick):
@@ -112,26 +123,86 @@ def processSettingsMenu(event, game):
 # Game finished menu
 
 gameFinishedBackground = menuImage("gameover.png")
+gameFinishedPrinterMask = menuImage("gameover-printermask.png")
 
 def startGame(game):
     game.start()
     menuhandler.back()
 
 gameFinishedButtons = {
-    "return": Button(pygame.Rect(415, 464, 70, 70), lambda g: menuhandler.setMenu("titleMenu")),
+    "return": Button(pygame.Rect(415, 464, 70, 70), lambda game: menuhandler.setMenu("titleMenu", game)),
 }
+
+reciptHeight = 0
+
+def buildReciptText(game):
+    itemReciptEntries = []
+    total = 0
+    
+    for collectedItem in game.collectedItems:
+        itemReciptEntries.append(
+            collectedItem.item.itemType.upper() + " : " + str(collectedItem.getScore() /10) + "0"
+        )
+        total += collectedItem.getScore()
+
+    if (itemReciptEntries == []):
+        itemReciptEntries = [ "*NONE*" ]
+
+    return [
+        "= SUPER-MART™ =",
+        "RECIPT OF PURCHASE",
+        "",
+        "----------------------------",
+    ] + itemReciptEntries + [
+        "",
+        "TOTAL : " + str(total /10) + "0",
+        "----------------------------",
+        "",
+        "Thanks for shoping at",
+        "SUPER-MART™"
+    ]
+
+fontheight = 25
+reciptFont = pygame.font.Font('./font/CamingoCode-Regular.ttf', fontheight)
+reciptText = []
 
 def drawGameFinishedMenu(screen, game):
     screen.blit(gameFinishedBackground, (0, 0))
+
+    pygame.draw.rect(screen, (255, 255, 255), pygame.Rect((72, 590 - reciptHeight), (403, reciptHeight)))
+
+    yPos = 595 - reciptHeight
+    for line in reciptText:
+        screen.blit(reciptFont.render(line, False, (0, 0, 0)), (79, yPos))
+        yPos += fontheight + 5
+
+    screen.blit(gameFinishedPrinterMask, (0, 0))
 
     drawDebugButtonColliders(screen, gameFinishedButtons)
 
 def processGameFinishedMenu(event, game):
     processMenuButtonClicks(event, game, gameFinishedButtons)
 
+def initGameFinishedMenu(game):
+    global reciptHeight, reciptText
+    reciptHeight = 0
+    reciptText = buildReciptText(game)
+
+reciptVelocity = random.random()
+reciptVelocityTicks = 0
+def tickGameFinishedMenu(game):
+    global reciptHeight, reciptVelocity, reciptVelocityTicks
+
+    reciptVelocityTicks += 1
+    if(reciptVelocityTicks == 20):
+        reciptVelocityTicks = 0
+        reciptVelocity = random.random()
+
+    reciptHeight += 5 * reciptVelocity
+    reciptHeight = min(reciptHeight, (fontheight + 5) * (len(reciptText) + 1))
 
 menus = {
     "titleMenu": Menu(drawTitleMenu, processTitleMenu),
     "settings": Menu(drawSettingsMenu, processSettingsMenu),
-    "gameFinished": Menu(drawGameFinishedMenu, processGameFinishedMenu),
+    "gameFinished": Menu(drawGameFinishedMenu, processGameFinishedMenu, initialiser=initGameFinishedMenu, ticker=tickGameFinishedMenu),
 }

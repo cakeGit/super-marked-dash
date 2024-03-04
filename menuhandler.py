@@ -3,14 +3,17 @@ import menus
 # Easy back button
 history = []
 
-def setMenu(menu):
+def setMenu(menu, game):
     global history
     history = [ menus.menus[menu] ]
+    initialiseCurrent(game)
 
-def navigate(menu):
+def navigate(menu, game):
     global history
     print("Navigating to: "+ menu)
     history.append(menus.menus[menu])
+    initialiseCurrent(game)
+
 
 def back():
     global history
@@ -31,3 +34,17 @@ def processCurrent(event, game):
     if (hasActiveMenu):
         currentMenu = history[len(history)-1]
         currentMenu.process(event, game)
+
+def tickCurrent(game):
+    hasActiveMenu = len(history) != 0
+
+    if (hasActiveMenu):
+        currentMenu = history[len(history)-1]
+        currentMenu.tick(game)
+
+def initialiseCurrent(game):
+    hasActiveMenu = len(history) != 0
+
+    if (hasActiveMenu):
+        currentMenu = history[len(history)-1]
+        currentMenu.initialise(game)
