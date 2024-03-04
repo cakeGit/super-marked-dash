@@ -26,5 +26,7 @@ these files hold well, the menus, menusHandler is used to keep track of the hist
 
 also sry for ruining your code im a massachist im enjoying this too much
 
+theres alot of stuff everywhere btw
+
 ## debug renderers
 theres a few debug renderers, they are controlled in constants.py, and draw boxes around objects in the world
