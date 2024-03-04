@@ -130,7 +130,8 @@ def startGame(game):
     menuhandler.back()
 
 gameFinishedButtons = {
-    "return": Button(pygame.Rect(415, 464, 70, 70), lambda game: menuhandler.setMenu("titleMenu", game)),
+    "scoreboard": Button(pygame.Rect(691, 327, 70, 70), lambda game: menuhandler.setMenu("titleMenu", game)),
+    "return": Button(pygame.Rect(691, 504, 70, 70), lambda game: menuhandler.setMenu("titleMenu", game)),
 }
 
 reciptHeight = 0
@@ -198,7 +199,7 @@ def tickGameFinishedMenu(game):
         reciptVelocityTicks = 0
         reciptVelocity = random.random()
 
-    reciptHeight += 5 * reciptVelocity
+    reciptHeight += 7.5 * reciptVelocity
     reciptHeight = min(reciptHeight, (fontheight + 5) * (len(reciptText) + 1))
 
 menus = {
