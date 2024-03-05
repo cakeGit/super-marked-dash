@@ -5,6 +5,7 @@ history = []
 
 def setMenu(menu, game):
     global history
+    print("Setting menu to to: "+ menu)
     history = [ menus.menus[menu] ]
     initialiseCurrent(game)
 

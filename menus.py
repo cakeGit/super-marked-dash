@@ -2,6 +2,7 @@ import pygame
 import menuhandler
 import constants
 import random
+import re
 
 from resources import menuImage
 
@@ -67,13 +68,9 @@ def processSimpleReturnButton(event, game):
 
 titleBackground = menuImage("titleBackground.png")
 
-def startGame(game):
-    game.start()
-    menuhandler.back()
-
 titleButtons = {
-    "start": Button(pygame.Rect(208, 428, 70, 70), startGame), # Using lambda to prevent circular import
-    "settings": Button(pygame.Rect(415, 428, 70, 70), lambda g: menuhandler.navigate("settings")),
+    "start": Button(pygame.Rect(208, 428, 70, 70), lambda game: game.load()), # Using lambda to prevent circular import
+    "settings": Button(pygame.Rect(415, 428, 70, 70), lambda game: menuhandler.navigate("settings", game)),
 }
 
 def drawTitleMenu(screen, game):
@@ -202,8 +199,49 @@ def tickGameFinishedMenu(game):
     reciptHeight += 20 * reciptVelocity
     reciptHeight = min(reciptHeight, (fontheight + 5) * (len(reciptText) + 1))
 
+# Name badge input menu
+
+nameBadgeInputBackground = menuImage("namebadgeinput.png")
+
+playerNameInputFont = pygame.font.Font('./font/KaushanScript-Regular.ttf', 60)
+playerNameInput = ""
+
+def drawNameBadgeInputMenu(screen, game):
+    screen.blit(nameBadgeInputBackground, (0, 0))
+
+    screen.blit(playerNameInputFont.render(playerNameInput, False, (0, 0, 0)), (239, 300))
+    if (playerNameInput == ""):
+        screen.blit(playerNameInputFont.render("NAME HERE", False, (100, 100, 100)), (239, 300))
+    drawDebugButtonColliders(screen, nameBadgeInputButtons)
+
+def processNameBadgeInputMenu(event, game):
+    global playerNameInput
+    processMenuButtonClicks(event, game, nameBadgeInputButtons)
+
+    if event.type != pygame.KEYDOWN:
+        return
+    
+    print(event)
+    keyPressed = event.unicode
+
+    if re.search("[a-zA-Z]", keyPressed) != None:
+        playerNameInput += keyPressed
+    elif keyPressed == '\x08':
+        playerNameInput = playerNameInput[0:-1]
+
+
+def submitNameBadgeInputMenu(game):
+    game.playerName = playerNameInput
+    game.start()
+
+nameBadgeInputButtons = {
+    "submit": Button(pygame.Rect(400, 428, 100, 100), submitNameBadgeInputMenu),
+}
+
+
 menus = {
     "titleMenu": Menu(drawTitleMenu, processTitleMenu),
     "settings": Menu(drawSettingsMenu, processSettingsMenu),
+    "nameInputMenu": Menu(drawNameBadgeInputMenu, processNameBadgeInputMenu),
     "gameFinished": Menu(drawGameFinishedMenu, processGameFinishedMenu, initialiser=initGameFinishedMenu, ticker=tickGameFinishedMenu),
 }

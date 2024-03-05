@@ -53,11 +53,12 @@ CART_MAX_CAPACITY = 10
 class Game():
     def __init__(self):
         self.inGame = False
-        self.isTicking = False
+        self.isGameTicking = False
 
         self.initialiseAll()
 
     def initialiseAll(self):
+        self.awaitingNameInput = False
         self.remainingLevelTime = 0
         self.currentLevelIndex = 0
         self.currentLevel = {}
@@ -67,6 +68,8 @@ class Game():
         self.playerY = 0
         self.cartPos = (0, 0)
         self.cartSpeedModifier = 1
+        self.playerName = ""
+        self.levelStartTime = 0
 
         self.collectedItems = []
 
@@ -75,19 +78,26 @@ class Game():
         self.audio = True
         self.music = True
 
-    def start(self):
+    def load(self):
         print("Started game")
         self.inGame = True
-        self.isTicking = True
+        self.awaitingNameInput = True
         self.initialiseAll()
 
         self.currentLevel = levelhandler.allLevels[self.currentLevelIndex]
         self.currentLevelItems = self.currentLevel.createItemSetForGame()
         self.currentLevelTime = self.currentLevel.getLevelTime()
-        self.levelStartTime = time.time()
         self.playerX = 535
         self.playerY = 417
         self.cartPos = (self.playerX, self.playerY)
+        menuhandler.setMenu("nameInputMenu", self)
+
+    def start(self):
+        self.awaitingNameInput = False
+        self.isGameTicking = True
+        self.levelStartTime = time.time()
+        print("Player name: " + self.playerName)
+        menuhandler.back()
 
     def toggleAudio(self):
         self.audio = not self.audio
@@ -142,10 +152,10 @@ timerBackground = image("timerbg.png")
 running = True
 while running:
     menuhandler.tickCurrent(game)
-    
-    if (game.inGame and game.isTicking):
+
+    if (game.inGame and game.isGameTicking):
         if(game.getRemainingTime() < 0):
-            game.isTicking = False
+            game.isGameTicking = False
             menuhandler.setMenu("gameFinished", game)
 
         playerhandler.updatePlayer(game)
