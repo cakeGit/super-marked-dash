@@ -197,9 +197,9 @@ def tickGameFinishedMenu(game):
     reciptVelocityTicks += 1
     if(reciptVelocityTicks == 20):
         reciptVelocityTicks = 0
-        reciptVelocity = random.random()
+        reciptVelocity = pow(random.random()*2, 2)
 
-    reciptHeight += 7.5 * reciptVelocity
+    reciptHeight += 20 * reciptVelocity
     reciptHeight = min(reciptHeight, (fontheight + 5) * (len(reciptText) + 1))
 
 menus = {
