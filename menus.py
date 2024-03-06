@@ -171,7 +171,7 @@ def drawGameFinishedMenu(screen, game):
 
     yPos = 595 - reciptHeight
     for line in reciptText:
-        screen.blit(reciptFont.render(line, False, (0, 0, 0)), (79, yPos))
+        screen.blit(reciptFont.render(line, True, (0, 0, 0)), (79, yPos))
         yPos += fontheight + 5
 
     screen.blit(gameFinishedPrinterMask, (0, 0))
@@ -201,27 +201,48 @@ def tickGameFinishedMenu(game):
 
 # Name badge input menu
 
-nameBadgeInputBackground = menuImage("namebadgeinput.png")
+backgroundOverlay = menuImage("backgroundoverlay.png")
+nameBadgeInput = menuImage("namebadgeinput.png")
+nameBadgeInputSubmitButton = menuImage("namebadgeinputsubmit.png")
 
 playerNameInputFont = pygame.font.Font('./font/KaushanScript-Regular.ttf', 60)
 playerNameInput = ""
 
-def drawNameBadgeInputMenu(screen, game):
-    screen.blit(nameBadgeInputBackground, (0, 0))
+incomeLerpAnimationLength = 20
+incomeLerpAnimationTicks = 0
 
-    screen.blit(playerNameInputFont.render(playerNameInput, False, (0, 0, 0)), (239, 300))
+def animationInterpolate(i, length):
+    i = max(min(i / length, 1), 0)
+    return pow(i, 2)
+
+def getSlideInY(direction):
+    return direction * (1-animationInterpolate(incomeLerpAnimationTicks,  incomeLerpAnimationLength)) * 613
+
+def drawNameBadgeInputMenu(screen, game):
+    screen.blit(backgroundOverlay, (0, 0))
+
+    screen.blit(nameBadgeInput, (0, getSlideInY(-1)))
+    screen.blit(nameBadgeInputSubmitButton, (0, getSlideInY(1)))
+
+    if (incomeLerpAnimationTicks != incomeLerpAnimationLength):
+        return
+    
+    screen.blit(playerNameInputFont.render(playerNameInput, True, (0, 0, 0)), (239, 300))
     if (playerNameInput == ""):
-        screen.blit(playerNameInputFont.render("NAME HERE", False, (100, 100, 100)), (239, 300))
+        screen.blit(playerNameInputFont.render("NAME HERE", True, (100, 100, 100)), (239, 300))
+
     drawDebugButtonColliders(screen, nameBadgeInputButtons)
 
 def processNameBadgeInputMenu(event, game):
+    if (incomeLerpAnimationTicks != incomeLerpAnimationLength):
+        return
+
     global playerNameInput
     processMenuButtonClicks(event, game, nameBadgeInputButtons)
 
     if event.type != pygame.KEYDOWN:
         return
     
-    print(event)
     keyPressed = event.unicode
 
     if re.search("[a-zA-Z]", keyPressed) != None:
@@ -229,6 +250,14 @@ def processNameBadgeInputMenu(event, game):
     elif keyPressed == '\x08':
         playerNameInput = playerNameInput[0:-1]
 
+def tickNameBadgeInputMenu(game):
+    global incomeLerpAnimationTicks
+    incomeLerpAnimationTicks += 1
+    incomeLerpAnimationTicks = min(incomeLerpAnimationTicks, incomeLerpAnimationLength)
+
+def initNameBadgeInputMenu(game):
+    global incomeLerpAnimationTicks
+    incomeLerpAnimationTicks = 0
 
 def submitNameBadgeInputMenu(game):
     game.playerName = playerNameInput
@@ -238,10 +267,9 @@ nameBadgeInputButtons = {
     "submit": Button(pygame.Rect(400, 428, 100, 100), submitNameBadgeInputMenu),
 }
 
-
 menus = {
     "titleMenu": Menu(drawTitleMenu, processTitleMenu),
     "settings": Menu(drawSettingsMenu, processSettingsMenu),
-    "nameInputMenu": Menu(drawNameBadgeInputMenu, processNameBadgeInputMenu),
+    "nameInputMenu": Menu(drawNameBadgeInputMenu, processNameBadgeInputMenu, initialiser=initNameBadgeInputMenu, ticker=tickNameBadgeInputMenu),
     "gameFinished": Menu(drawGameFinishedMenu, processGameFinishedMenu, initialiser=initGameFinishedMenu, ticker=tickGameFinishedMenu),
 }
