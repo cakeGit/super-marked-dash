@@ -226,8 +226,9 @@ def getColliders():
 def getCheckoutAreas():
     return checkoutAreas
 
+# Time in seconds that the player will have while ingame
 def getLevelTime():
-    return 60
+    return 10
 
 def drawBackground(screen):
     screen.blit(Floor, (0, 0))
