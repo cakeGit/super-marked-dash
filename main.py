@@ -1,4 +1,5 @@
 import pygame
+import scoreboardDataHandler
 from pygame.locals import *
 
 # initiating pygame
@@ -52,6 +53,9 @@ CART_MAX_CAPACITY = 10
 
 class Game():
     def __init__(self):
+        # Allow other modules (such as the menus) to access the same scoreboard data instance
+        self.scoreboardDataHandler = scoreboardDataHandler
+
         self.inGame = False
         self.isGameTicking = False
 
@@ -61,6 +65,7 @@ class Game():
         self.awaitingNameInput = False
         self.remainingLevelTime = 0
         self.currentLevelIndex = 0
+        self.totalScore = 0
         self.currentLevel = {}
         self.currentLevelItems = []
 
@@ -143,6 +148,11 @@ class Game():
     def getCurrentLevelColliders(self):
         return self.currentLevel.getColliders()
     
+    def calculateTotalScore(self):
+        self.totalScore = 0
+        for collectedItem in game.collectedItems:
+            self.totalScore += collectedItem.getScore()
+    
 
 game = Game()
 
@@ -156,7 +166,9 @@ while running:
     if (game.inGame and game.isGameTicking):
         if(game.getRemainingTime() < 0):
             game.isGameTicking = False
+            game.calculateTotalScore()
             menuhandler.setMenu("gameFinished", game)
+            scoreboardDataHandler.put(game.playerName, game.totalScore)
 
         playerhandler.updatePlayer(game)
         game.tickCartItems()
