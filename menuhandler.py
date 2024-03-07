@@ -19,6 +19,7 @@ def navigate(menu, game):
 def back():
     global history
     history.pop()
+    print("Navigating back")
 
 # These are safe to call even if you arent looking at a menu
 
