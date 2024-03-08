@@ -228,7 +228,7 @@ def getCheckoutAreas():
 
 # Time in seconds that the player will have while ingame
 def getLevelTime():
-    return 10
+    return 60
 
 def drawBackground(screen):
     screen.blit(Floor, (0, 0))
