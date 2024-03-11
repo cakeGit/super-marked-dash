@@ -30,3 +30,7 @@ theres alot of stuff everywhere btw
 
 ## debug renderers
 theres a few debug renderers, they are controlled in constants.py, and draw boxes around objects in the world
+
+## diagram
+i tried to make a diagram this is as far as i got rip
+<img src='https://github.com/cakeGit/super-marked-dash/blob/f938af0a3adc4b6585d8b9c6c1f344f0d40224da/mermaid-diagram-2024-03-09-123103.png'>
