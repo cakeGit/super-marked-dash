@@ -179,6 +179,7 @@ while running:
     if (game.inGame):
         draw()
         game.drawCartItems(screen)
+        game.drawShoppingList(screen)
         for checkoutArea in game.currentLevel.getCheckoutAreas():
             checkoutArea.draw(screen)
         screen.blit(timerBackground, (0, 0))
