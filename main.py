@@ -51,6 +51,8 @@ class CollectedItem():
 
 CART_MAX_CAPACITY = 10
 
+fontheight = 25
+reciptFont = pygame.font.Font('./font/CamingoCode-Regular.ttf', fontheight)
 class Game():
     def __init__(self):
         # Allow other modules (such as the menus) to access the same scoreboard data instance
@@ -75,6 +77,8 @@ class Game():
         self.cartSpeedModifier = 1
         self.playerName = ""
         self.levelStartTime = 0
+        self.shoppingListText = []
+        self.shoppingList = []
 
         self.collectedItems = []
 
@@ -92,9 +96,11 @@ class Game():
         self.currentLevel = levelhandler.allLevels[self.currentLevelIndex]
         self.currentLevelItems = self.currentLevel.createItemSetForGame()
         self.currentLevelTime = self.currentLevel.getLevelTime()
+        self.shoppingList = self.currentLevelItems
         self.playerX = 535
         self.playerY = 417
         self.cartPos = (self.playerX, self.playerY)
+        self.updateShoppingList()
         menuhandler.setMenu("nameInputMenu", self)
 
     def start(self):
@@ -150,8 +156,36 @@ class Game():
     
     def calculateTotalScore(self):
         self.totalScore = 0
+
         for collectedItem in game.collectedItems:
             self.totalScore += collectedItem.getScore()
+
+    def updateShoppingList(self):
+        self.shoppingListText = []
+
+        shoppingListEntries = {}
+
+        for i in self.shoppingList:
+            name = i.itemType
+            if name not in shoppingListEntries:
+                shoppingListEntries[name] = 0
+            else:
+                shoppingListEntries[name] += 1
+
+        for k in shoppingListEntries:
+            self.shoppingListText.append(k + " x" + str(shoppingListEntries[k]))
+
+    def drawShoppingList(self, screen):
+
+        height = 100
+        pygame.draw.rect(screen, (255, 255, 255), pygame.Rect((423, 613 -(height + 20)), (423, height + 20)))
+
+        yPos = 613-(height + 20)
+
+        for line in self.shoppingListText:
+            screen.blit(reciptFont.render(line, True, (0, 0, 0)), (430, yPos))
+            yPos += fontheight + 5
+
     
 
 game = Game()
