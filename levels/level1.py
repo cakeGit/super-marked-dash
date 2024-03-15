@@ -8,177 +8,83 @@ Floor = image('Floor.png')
 
 #This was getting a bit to long so i put it in this file, also you should maybe make a function to make these
 items = [
-    StoreItem("grapes", (810,27)),
-    StoreItem("grapes", (830,27)),
-    StoreItem("grapes", (850,27)),
-    StoreItem("grapes", (870,27)),
+    ItemSpawningGroup((810,27), (830,27),
+                      (850,27), (870,27)),
+    ItemSpawningGroup((810,68), (830,68),
+                      (850,68), (870,68)),
 
-    StoreItem("watermelon", (810,68)),
-    StoreItem("watermelon", (830,68)),
-    StoreItem("watermelon", (850,68)),
-    StoreItem("watermelon", (870,68)),
+    ItemSpawningGroup((710,27), (730,27),
+                      (750,27), (770,27)),
+    ItemSpawningGroup((710,68), (730,68),
+                      (750,68), (770,68)),
 
-    StoreItem("Pepper", (710,27)),
-    StoreItem("Pepper", (730,27)),
-    StoreItem("Pepper", (750,27)),
-    StoreItem("Pepper", (770,27)),
+    ItemSpawningGroup((615,27), (635,27),
+                      (655,27), (675,27)),
+    ItemSpawningGroup((615,68), (635,68),
+                      (655,68), (675,68)),
 
-    StoreItem("carrots", (710,68)),
-    StoreItem("carrots", (730,68)),
-    StoreItem("carrots", (750,68)),
-    StoreItem("carrots", (770,68)),
+    ItemSpawningGroup((520,27), (540,27),
+                      (560,27), (580,27)),
+    ItemSpawningGroup((520,68), (540,68),
+                      (560,68), (580,68)),
 
-    StoreItem("Corn", (615,27)),
-    StoreItem("Corn", (635,27)),
-    StoreItem("Corn", (655,27)),
-    StoreItem("Corn", (675,27)),
+    ItemSpawningGroup((427,27), (447,27),
+                      (467,27), (487,27)),
+    ItemSpawningGroup((427,68), (447,68),
+                      (467,68), (487,68)),
 
-    StoreItem("sweet-potato", (615,68)),
-    StoreItem("sweet-potato", (635,68)),
-    StoreItem("sweet-potato", (655,68)),
-    StoreItem("sweet-potato", (675,68)),
+    ItemSpawningGroup((330,27), (350,27),
+                      (370,27), (390,27)),
+    ItemSpawningGroup((330,68), (350,68),
+                      (370,68), (390,68)),
 
-    StoreItem("bread", (520,27)),
-    StoreItem("bread", (540,27)),
-    StoreItem("bread", (560,27)),
-    StoreItem("bread", (580,27)),
+    ItemSpawningGroup((275, 200), (288, 200),
+                      (275, 272), (288, 272),
+                      (260, 220), (260, 240), (260, 260),
+                      (305, 220), (305, 240), (305, 260)),
 
-    StoreItem("butter", (520,68)),
-    StoreItem("butter", (540,68)),
-    StoreItem("butter", (560,68)),
-    StoreItem("butter", (580,68)),
+    ItemSpawningGroup((260, 320), (260, 340),
+                      (260, 360), (305, 320),
+                      (305, 340), (305, 360), (275, 305),
+                      (288, 305), (275, 375), (288, 375)),
 
-    StoreItem("milk", (427,27)),
-    StoreItem("milk", (447,27)),
-    StoreItem("milk", (467,27)),
-    StoreItem("milk", (487,27)),
+    ItemSpawningGroup((490, 220), (490, 240),
+                      (490, 260), (450, 220),
+                      (450, 240), (450, 260), (465, 200),
+                      (475, 200), (465, 272), (475, 272)),
 
-    StoreItem("egg", (440,68)),
-    StoreItem("egg", (480,68)),
+    ItemSpawningGroup((490, 320), (490, 340),
+                      (490, 360), (450, 320),
+                      (450, 340), (450, 360), (465, 305),
+                      (475, 305), (465, 375), (475, 375)),
 
-    StoreItem("maple-syrup", (330,27)),
-    StoreItem("maple-syrup", (350,27)),
-    StoreItem("maple-syrup", (370,27)),
-    StoreItem("maple-syrup", (390,27)),
-
-    StoreItem("soda", (335,68)),
-    StoreItem("soda", (355,68)),
-    StoreItem("soda", (375,68)),
-    StoreItem("soda", (395,68)),
-
-    StoreItem("onion", (275, 200)),
-    StoreItem("onion", (288, 200)),
-
-    StoreItem("onion", (275, 272)),
-    StoreItem("onion", (288, 272)),
-
-    StoreItem("onion", (260, 220)),
-    StoreItem("onion", (260, 240)),
-    StoreItem("onion", (260, 260)),
-
-
-    StoreItem("onion", (305, 220)),
-    StoreItem("onion", (305, 240)),
-    StoreItem("onion", (305, 260)),
-
-
-    StoreItem("orange", (260, 320)),
-    StoreItem("orange", (260, 340)),
-    StoreItem("orange", (260, 360)),
-
-    StoreItem("orange", (305, 320)),
-    StoreItem("orange", (305, 340)),
-    StoreItem("orange", (305, 360)),
-
-    StoreItem("orange", (275, 305)),
-    StoreItem("orange", (288, 305)),
-
-    StoreItem("orange", (275, 375)),
-    StoreItem("orange", (288, 375)),
-
-    StoreItem("strawberry", (490, 220)),
-    StoreItem("strawberry", (490, 240)),
-    StoreItem("strawberry", (490, 260)),
-
-    StoreItem("strawberry", (450, 220)),
-    StoreItem("strawberry", (450, 240)),
-    StoreItem("strawberry", (450, 260)),
-
-    StoreItem("strawberry", (465, 200)),
-    StoreItem("strawberry", (475, 200)),
-
-    StoreItem("strawberry", (465, 272)),
-    StoreItem("strawberry", (475, 272)),
-
-    StoreItem("coconut", (490, 320)),
-    StoreItem("coconut", (490, 340)),
-    StoreItem("coconut", (490, 360)),
-
-    StoreItem("coconut", (450, 320)),
-    StoreItem("coconut", (450, 340)),
-    StoreItem("coconut", (450, 360)),
-
-    StoreItem("coconut", (465, 305)),
-    StoreItem("coconut", (475, 305)),
-
-    StoreItem("coconut", (465, 375)),
-    StoreItem("coconut", (475, 375)),
-
-    StoreItem("instant-noodles", (810,155)),
-    StoreItem("instant-noodles", (830,155)),
-    StoreItem("instant-noodles", (850,155)),
-    StoreItem("instant-noodles", (870,155)),
-
-    StoreItem("instant-noodles", (810,196)),
-    StoreItem("instant-noodles", (830,196)),
-    StoreItem("instant-noodles", (850,196)),
-    StoreItem("instant-noodles", (870,196)),
+    ItemSpawningGroup((810,155), (830,155),
+                      (850,155), (870,155),
+                      (810,196), (830,196),
+                      (850,196), (870,196)),
     
-    StoreItem("soy", (710,155)),
-    StoreItem("soy", (730,155)),
-    StoreItem("soy", (750,155)),
-    StoreItem("soy", (770,155)),
+    ItemSpawningGroup((710,155), (730,155),
+                      (750,155), (770,155),
+                      (710,196), (730,196),
+                      (750,196), (770,196)),
 
-    StoreItem("soy", (710,196)),
-    StoreItem("soy", (730,196)),
-    StoreItem("soy", (750,196)),
-    StoreItem("soy", (770,196)),
+    ItemSpawningGroup((810,324), (830,324),
+                      (850,324), (870,324),
+                      (810,280), (830,280),
+                      (850,280), (870,280)),
 
-    StoreItem("pasta", (810,324)),
-    StoreItem("pasta", (830,324)),
-    StoreItem("pasta", (850,324)),
-    StoreItem("pasta", (870,324)),
+    ItemSpawningGroup((710, 324), (730, 324),
+                      (750, 324), (770, 324),
+                      (710, 280), (730, 280),
+                      (750, 280), (770, 280)),
 
-    StoreItem("pasta", (810,280)),
-    StoreItem("pasta", (830,280)),
-    StoreItem("pasta", (850,280)),
-    StoreItem("pasta", (870,280)),
+    ItemSpawningGroup((810, 408), (835, 408),
+                      (860, 408), (810, 452),
+                      (835, 452), (860, 452)),
 
-    StoreItem("tomato", (710, 324)),
-    StoreItem("tomato", (730, 324)),
-    StoreItem("tomato", (750, 324)),
-    StoreItem("tomato", (770, 324)),
-
-    StoreItem("tomato", (710, 280)),
-    StoreItem("tomato", (730, 280)),
-    StoreItem("tomato", (750, 280)),
-    StoreItem("tomato", (770, 280)),
-
-    StoreItem("chocolate", (810, 408)),
-    StoreItem("chocolate", (835, 408)),
-    StoreItem("chocolate", (860, 408)),
-
-    StoreItem("chocolate", (810, 452)),
-    StoreItem("chocolate", (835, 452)),
-    StoreItem("chocolate", (860, 452)),
-
-    StoreItem("chocBag", (720, 408)),
-    StoreItem("chocBag", (745, 408)),
-    StoreItem("chocBag", (770, 408)),
-
-    StoreItem("chocBag", (720, 452)),
-    StoreItem("chocBag", (745, 452)),
-    StoreItem("chocBag", (770, 452)),
+    ItemSpawningGroup((720, 408), (745, 408),
+                      (770, 408), (720, 452),
+                      (745, 452), (770, 452)),
 ]
 
 checkoutAreas = [
@@ -225,10 +131,6 @@ def getColliders():
 
 def getCheckoutAreas():
     return checkoutAreas
-
-# Time in seconds that the player will have while ingame
-def getLevelTime():
-    return 60
 
 def drawBackground(screen):
     screen.blit(Floor, (0, 0))
