@@ -1,6 +1,6 @@
 import pygame
 
-# Definitions for util / game objects - used across files
+# Used to get the filepaths for images, so that they can be changed without requiring renaming everything, and for cleaner code
 
 # Path of an image called str
 def imageResource(str):
