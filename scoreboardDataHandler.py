@@ -9,7 +9,7 @@ scores = []
 # Sort the array and remove excess
 def formatScores():
     global scores
-    scores.sort(reverse=True, key=lambda o: o[1])
+    scores.sort(reverse=False, key=lambda o: o[1])
     print("Sorted scores: ", scores)
     if len(scores) > constants.SCORES_MAX_LENGTH:
         print("Removed excess score(s)")
@@ -61,7 +61,7 @@ def read():
             try:
                 score = int(pair[1])
             except ValueError:
-                print("Incorrect formatting in "+filename+".csv, score is not an integer!")
+                print("Incorrect formatting in "+filename+".csv, score is not an integer (of time in 1/100 seconds)!")
                 return
 
             readScores.append([pair[0], score])
@@ -75,7 +75,7 @@ def getStringEntries():
     entries = []
     index = 1
     for entry in scores:
-        entries.append(str(index) +  "." + entry[0] + ": " + str(entry[1] /10) + "0",)
+        entries.append(str(index) +  "." + entry[0] + ": " + str(entry[1] /100),)
         index += 1
     return entries
 

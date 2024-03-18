@@ -137,7 +137,9 @@ reciptHeight = 0
 def buildReciptText(game):
     itemReciptEntries = []
 
+    total = 0
     for collectedItem in game.collectedItems:
+        total += collectedItem.getScore()
         itemReciptEntries.append(
             collectedItem.item.itemType.upper() + " : " + str(collectedItem.getScore() /10) + "0"
         )
@@ -152,7 +154,9 @@ def buildReciptText(game):
         "----------------------------",
     ] + itemReciptEntries + [
         "",
-        "TOTAL : " + str(game.totalScore /10) + "0",
+        "TOTAL : " + str(total /10) + "0",
+        "----------------------------",
+        "TIME : " + game.getTimeText(True),
         "----------------------------",
         "",
         "Thanks for shoping at",

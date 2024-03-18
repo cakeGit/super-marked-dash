@@ -16,7 +16,7 @@ def getPlayerCollisionRect(game):
     return pygame.Rect(game.playerX, game.playerY, 28, 22)
 
 def drawPlayer(screen, game):
-    screen.blit(playerImage, (game.playerX -18, game.playerY -42))
+    screen.blit(playerImage, (game.playerX - 18, game.playerY - 42))
 
     playerPos = (game.playerX, game.playerY)
     cartDistance = calcMagnitude(sub(game.cartPos, playerPos))
@@ -26,7 +26,7 @@ def drawPlayer(screen, game):
         cartDifference = sub(game.cartPos, playerPos)
         cartDistance = calcMagnitude(cartDifference)
         if (cartDistance < 50):
-            game.cartPos = add(playerPos, multiply(cartDifference, 50/cartDistance))
+            game.cartPos = add(playerPos, multiply(cartDifference, 50 / cartDistance))
 
     screen.blit(cartImage, (game.cartPos[0] -18, game.cartPos[1] -42))
 
@@ -65,7 +65,7 @@ def updatePlayer(game):
         #Normalise
         movementVector = multiply(movementVector, 1/magnitude)
 
-        baseMovementSpeed = 2.5
+        baseMovementSpeed = 5
         movementSpeed = linearInterpolateScalar(baseMovementSpeed, baseMovementSpeed * game.cartSpeedModifier, CART_MAX_SLOWDOWN)
 
         movementVector = multiply(movementVector, movementSpeed)

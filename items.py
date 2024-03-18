@@ -1,3 +1,4 @@
+# Shrimply a list of all the different item types, icons are the same as the name
 itemIds = [
     "grapes",
     "watermelon",

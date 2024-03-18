@@ -10,9 +10,12 @@ def trim(arr):
 
 class CSVFile():
     def __init__(self, filename):
+        # All CSVFile files are in  ./playerdata
         self.directory = os.path.join(os.getcwd(), "playerdata")
         self.path = os.path.join(self.directory, filename + ".csv")
-        
+    
+    # Util functions to shorthand on python's file methods
+
     def openFile(self, type):
         return open(self.path, type)
     
@@ -22,9 +25,11 @@ class CSVFile():
     def directoryExists(self):
         return os.path.exists(self.directory)
 
+    # Return a read stream to the file,
     def openReadStream(self):
         return CSVReadStream(self.openFile("r"))
     
+    # Return a write stream to the file, create a file if it doesent exist
     def openWriteStream(self):
         if (not self.fileExists()):
             if (not self.directoryExists()):
@@ -34,7 +39,8 @@ class CSVFile():
             file = self.openFile("w")
         return CSVWriteStream(file)
 
-        
+
+# Returned from a CSVFile, used to read data from   
 class CSVReadStream():
     def __init__(self, file):
         self.file = file
@@ -68,6 +74,7 @@ class CSVReadStream():
     def close(self):
         self.file.close()
 
+# Returned from a CSVFile, used to write data back into the file on the disk itself
 class CSVWriteStream():
     def __init__(self, file):
         self.file = file
