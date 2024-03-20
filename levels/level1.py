@@ -5,7 +5,7 @@ from objects import *
 
 Floor = image('Floor.png')
 
-itemSpawningGroups: list[ItemSpawningGroup] = [
+itemSpawningGroups = [
     ItemSpawningGroup([(810,27), (830,27),
                       (850,27), (870,27)]),
     ItemSpawningGroup([(810,68), (830,68),
@@ -85,11 +85,11 @@ itemSpawningGroups: list[ItemSpawningGroup] = [
                       (745, 452), (770, 452)]),
 ]
 
-checkoutAreas: list[CheckoutArea] = [
+checkoutAreas = [
     CheckoutArea((0, 150), (150, 350))
 ]
 
-collideableSprites: list[CollideableSprite] = [
+collideableSprites = [
     CollideableSprite("Shelf", (803,27)),
     CollideableSprite("Shelf", (708,27)),
     CollideableSprite("Shelf", (613,27)),
@@ -114,7 +114,7 @@ collideableSprites: list[CollideableSprite] = [
 ]
 
 # Add colliders for level obstacles like pillars, but there isnt any
-colliders: list[Collider] = [
+colliders = [
 
 ]
 

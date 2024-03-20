@@ -186,7 +186,7 @@ class Game():
 
     def generateLevelItemsAndShoppingList(self):
         # Get a copy of the spawning groups so we can remove stuff from it without worrying about modifying the level itself
-        ungeneratedSpawningGroups: list[ItemSpawningGroup] = self.currentLevel.getLevelItemSpawningGroups().copy()
+        ungeneratedSpawningGroups = self.currentLevel.getLevelItemSpawningGroups().copy()
 
         # How many more items to add to the shopping list
         remainingShoppingListSpace: int = constants.MAX_SHOPPING_LIST_COUNT

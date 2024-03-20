@@ -8,7 +8,7 @@ import random
 # These are different data types to represent the physical "things" in the level (excluding the player, cart, and stuff inside it)
 
 # Holds a dictionary of paths to their respective loaded images, to save repeatedly loading the same thing
-images: list[pygame.Surface] = {}
+images = {}
 
 # Checks images for an already loaded image
 # If it doesent exist it loads it from resources.py
@@ -41,15 +41,15 @@ class ItemSpawningGroup():
     # Takes in a list of bunch of positions for each item in the group, eg:
     # ItemSpawningGroup([ (810,68), (830,68),
     #                   (850,68), (870,68) ]),
-    def __init__(self, positions: list[tuple]):
+    def __init__(self, positions):
         self.positions = positions
 
     # Generate items for this group, returns a tuple of the name of the item that was generated, how much, and then the items
-    def generateRandom(self) -> tuple[str, int, list[StoreItem]]:
+    def generateRandom(self):
         generatedItemType: str = pickRandomOfList(items.itemIds)
         generatedItemCount: int = len(self.positions)
         
-        generatedItems: list[StoreItem] = []
+        generatedItems = []
         for position in self.positions:
             generatedItems.append(StoreItem(generatedItemType, position))
 
@@ -72,7 +72,7 @@ class CollideableSprite():
 
 # Can be used as an alternative to the CollideableSprite, if you want to add collisions to something in a level that doesen't have an associated sprite 
 class Collider():
-    def __init__(self, pos: tuple[int, int], dimensions: tuple[int, int]):
+    def __init__(self, pos, dimensions):
         self.pos = pos
         self.dimensions = dimensions
 
