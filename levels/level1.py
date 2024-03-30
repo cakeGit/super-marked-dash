@@ -1,5 +1,6 @@
 from resources import image
 from objects import *
+from scoreboardDataHandler import ScoreboardDataHandler
 
 # This file holds all the data for the first (and only level)
 
@@ -135,3 +136,8 @@ def getColliders():
 
 def getCheckoutAreas():
     return checkoutAreas
+
+scoreboardDataHandler = ScoreboardDataHandler("level-1")
+
+def getScoreboardDataHandler():
+    return scoreboardDataHandler
