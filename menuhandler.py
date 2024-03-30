@@ -1,5 +1,3 @@
-import menus
-
 # Menus work around the history list,
 # This is by getting whichever menu is most recent in the history
 # Then processing clicks and drawing it to the screen
@@ -13,14 +11,14 @@ history = []
 def setMenu(menu, game):
     global history
     print("Setting menu to to: "+ menu)
-    history = [ menus.menus[menu] ]
+    history = [ menus[menu] ]
     initialiseCurrent(game)
 
 # Navigates to the set menu, keeping the previous one in the history
 def navigate(menu, game):
     global history
     print("Navigating to: "+ menu)
-    history.append(menus.menus[menu])
+    history.append(menus[menu])
     initialiseCurrent(game)
 
 # Remove the last menu from the history, meaning the one before that is displayed
@@ -65,3 +63,18 @@ def initialiseCurrent(game):
     if (hasActiveMenu):
         currentMenu = history[len(history)-1]
         currentMenu.initialise(game)
+
+import menus.gameFinishedMenu
+import menus.nameInputMenu
+import menus.scoreboardMenu
+import menus.settingsMenu
+import menus.titleMenu
+
+#Store a list of all the menus in ./menus/
+menus = {
+    "gameFinishedMenu": menus.gameFinishedMenu.getMenu(),
+    "nameInputMenu": menus.nameInputMenu.getMenu(),
+    "scoreboardMenu": menus.scoreboardMenu.getMenu(),
+    "settingsMenu": menus.settingsMenu.getMenu(),
+    "titleMenu": menus.titleMenu.getMenu(),
+}

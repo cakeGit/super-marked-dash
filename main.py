@@ -59,8 +59,6 @@ def pickRandomOfList(list):
 class Game():
     def __init__(self):
         # Allow other modules (such as the menus) to access the same scoreboard data instance
-        self.scoreboardDataHandler = scoreboardDataHandler
-
         self.inGame = False
         self.isGameTicking = False
 
@@ -104,6 +102,9 @@ class Game():
 
         self.generateLevelItemsAndShoppingList()
         self.updateShoppingList()
+
+        self.lastLevelScoreboard = self.currentLevel.getScoreboardDataHandler()
+        self.lastLevelName = self.currentLevel.getName()
         
         menuhandler.setMenu("nameInputMenu", self)
 
@@ -159,8 +160,8 @@ class Game():
     def checkGameOver(self):
         if len(self.shoppingListEntries.keys()) == 0:
             game.isGameTicking = False
-            menuhandler.setMenu("gameFinished", game)
-            scoreboardDataHandler.put(game.playerName, math.floor((time.time() - game.levelStartTime) * 100))
+            menuhandler.setMenu("gameFinishedMenu", game)
+            self.lastLevelScoreboard.put(game.playerName, math.floor((time.time() - game.levelStartTime) * 100))
 
 
     # Return the time passed since the start of the level, in seconds
@@ -244,6 +245,8 @@ class Game():
         self.music = not self.music
         print("Toggled music: " + str(self.music))
 
+    def getCurrentScoreboard(self):
+        return self.lastLevelScoreboard
 
 game = Game()
 
