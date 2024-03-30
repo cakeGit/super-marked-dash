@@ -71,7 +71,6 @@ class Game():
     def initialiseAll(self):
         self.awaitingNameInput = False
         self.remainingLevelTime = 0
-        self.currentLevelIndex = 0
         self.totalScore = 0
         self.currentLevel = {}
         self.currentLevelItems = []
@@ -231,7 +230,7 @@ class Game():
         height = 100
         pygame.draw.rect(screen, (255, 255, 255), pygame.Rect((423, 613 -(height + 20)), (423, height + 20)))
 
-        yPos = 613-(height + 20)
+        yPos = 613 -(height + 20)
 
         for line in self.shoppingListText:
             screen.blit(shoppingListFont.render(line, True, (0, 0, 0)), (430, yPos))
@@ -244,9 +243,6 @@ class Game():
     def toggleMusic(self):
         self.music = not self.music
         print("Toggled music: " + str(self.music))
-
-    def getCurrentScoreboard(self):
-        return self.lastLevelScoreboard
 
 game = Game()
 

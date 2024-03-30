@@ -3,6 +3,7 @@ from menu import *
 import random
 
 # Game finished menu
+pygame.font.init()
 
 gameFinishedBackground = menuImage("gameover.png")
 gameFinishedPrinterMask = menuImage("gameover-printermask.png")

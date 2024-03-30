@@ -6,7 +6,7 @@ from menu import *
 titleBackground = menuImage("titleBackground.png")
 
 titleButtons = {
-    "start": Button(pygame.Rect(208, 428, 70, 70), lambda game: game.load()),
+    "start": Button(pygame.Rect(208, 428, 70, 70), lambda game: menuhandler.navigate("levelSelectMenu", game)),
     "settings": Button(pygame.Rect(415, 428, 70, 70), lambda game: menuhandler.navigate("settingsMenu", game)),
     # "scoreboard": Button(pygame.Rect(622, 428, 70, 70), lambda game: menuhandler.navigate("scoreboard", game)),
 }

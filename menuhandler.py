@@ -65,6 +65,7 @@ def initialiseCurrent(game):
         currentMenu.initialise(game)
 
 import menus.gameFinishedMenu
+import menus.levelSelectMenu
 import menus.nameInputMenu
 import menus.scoreboardMenu
 import menus.settingsMenu
@@ -73,6 +74,7 @@ import menus.titleMenu
 #Store a list of all the menus in ./menus/
 menus = {
     "gameFinishedMenu": menus.gameFinishedMenu.getMenu(),
+    "levelSelectMenu": menus.levelSelectMenu.getMenu(),
     "nameInputMenu": menus.nameInputMenu.getMenu(),
     "scoreboardMenu": menus.scoreboardMenu.getMenu(),
     "settingsMenu": menus.settingsMenu.getMenu(),
