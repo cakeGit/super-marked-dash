@@ -156,4 +156,4 @@ def getScoreboardDataHandler():
     return scoreboardDataHandler
 
 def getName():
-    return "Level 3"
+    return "Level 2"
