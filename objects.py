@@ -46,14 +46,17 @@ class ItemSpawningGroup():
 
     # Generate items for this group, returns a tuple of the name of the item that was generated, how much, and then the items
     def generateRandom(self):
+        # Pick a random item type that the whole shelf / island will have
         generatedItemType: str = pickRandomOfList(items.itemIds)
-        generatedItemCount: int = len(self.positions)
-        
+
+        # Keep a list of all the items
         generatedItems = []
+        # Making items at each position
         for position in self.positions:
+            #Add in the items as generated
             generatedItems.append(StoreItem(generatedItemType, position))
 
-        return (generatedItemType, generatedItemCount, generatedItems)
+        return generatedItems
 
 # Functionally the same as the StoreItem, but is a different type since the uses are different 
 class CollideableSprite():
