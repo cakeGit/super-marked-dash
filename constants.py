@@ -12,7 +12,7 @@ RENDER_DEBUG_BUTTON_COLLIDERS = True and ALLOW_DEBUG_RENDERERS
 SCORES_MAX_LENGTH = 20
 
 # How many items (can be of the same type), the shopping list will have (at max, though levels should have enough spots)
-MAX_SHOPPING_LIST_COUNT = 1
+MAX_SHOPPING_LIST_COUNT = 20
 
 # How many items can be kept in a cart
 CART_MAX_CAPACITY = 10
