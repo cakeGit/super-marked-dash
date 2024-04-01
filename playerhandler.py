@@ -4,6 +4,7 @@ import pygame
 from mathutil import *
 from resources import image
 import constants
+import random
 
 #Drawing
 
@@ -39,9 +40,30 @@ def drawPlayer(screen, game):
 #Logic
 
 movementVelocity = (0, 0)
+sweatParticleSpawn = 0
 
-#Calculate how much the player should move by
-def updatePlayer(game):
+#Calculate how much the player should move by & make sweat particles depending on how full the cart is
+def updatePlayer(game, particles):
+    # Particle handling
+    global sweatParticleSpawn
+    sweatParticleSpawn += 1 * (game.cartRemainingPercent < 0.5) * (1-game.cartRemainingPercent)
+    print(sweatParticleSpawn)
+    if (sweatParticleSpawn >= 20):
+        velocity = (
+            (random.random() - 0.5) * 3,
+            -(1 + random.random()),
+            )
+
+        particles.spawn(
+            "sweat",
+            (
+                game.playerX + (random.random() * 28),
+                game.playerY + (random.random() * 5) - 42
+            ),  
+            velocity, .2, 40)
+        sweatParticleSpawn = 0
+
+    # Movement handling
     global movementVelocity, lastMovementDirection
     pressedKeys = pygame.key.get_pressed()
 
@@ -66,7 +88,7 @@ def updatePlayer(game):
         movementVector = multiply(movementVector, 1/magnitude)
 
         baseMovementSpeed = 5
-        movementSpeed = linearInterpolateScalar(baseMovementSpeed, baseMovementSpeed * game.cartSpeedModifier, CART_MAX_SLOWDOWN)
+        movementSpeed = linearInterpolateScalar(baseMovementSpeed, baseMovementSpeed * game.cartRemainingPercent, CART_MAX_SLOWDOWN)
 
         movementVector = multiply(movementVector, movementSpeed)
 
