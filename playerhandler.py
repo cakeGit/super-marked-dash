@@ -47,13 +47,16 @@ def updatePlayer(game, particles):
     # Particle handling
     global sweatParticleSpawn
     sweatParticleSpawn += 1 * (game.cartRemainingPercent < 0.5) * (1-game.cartRemainingPercent)
-    print(sweatParticleSpawn)
+
+    #Check if we have met the threshold to spawn in a new particle
     if (sweatParticleSpawn >= 20):
+        # give it a random ish velocity such that it moves up and in either direction
         velocity = (
             (random.random() - 0.5) * 3,
             -(1 + random.random()),
             )
 
+        # Spawn in the particle
         particles.spawn(
             "sweat",
             (
