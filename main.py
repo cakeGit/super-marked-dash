@@ -1,6 +1,7 @@
 import pygame
 import scoreboardDataHandler
 from pygame.locals import *
+import particles
 
 # initiating pygame
 pygame.init()
@@ -50,7 +51,8 @@ class CollectedItem():
         return 15
 
 shoppingListFontHeight = 25
-shoppingListFont = pygame.font.Font('./font/CamingoCode-Regular.ttf', shoppingListFontHeight)
+# Using a different font to gamefont since the font heights may be diffent
+shoppingListFont = pygame.font.SysFont('Comic Sans MS', shoppingListFontHeight)
 
 # Pick a random index in the list (the last element is at the position 1 less than the length)
 def pickRandomOfList(list):
@@ -78,10 +80,10 @@ class Game():
         self.playerX = 0
         self.playerY = 0
         self.cartPos = (0, 0)
-        self.cartSpeedModifier = 1
+        self.cartRemainingPercent = 1
         self.playerName = ""
         self.levelStartTime = 0
-        self.shoppingListText = []
+        self.shoppingListDisplay = []
         self.shoppingListEntries = {}
         self.collectedItems = []
 
@@ -117,7 +119,7 @@ class Game():
 
     def tickCartItems(self):
         # Calculate the speed effect of the cart (0-1 and based on how full the cart is) for the player
-        self.cartSpeedModifier = (constants.CART_MAX_CAPACITY - len(self.cartContents)) / constants.CART_MAX_CAPACITY
+        self.cartRemainingPercent = (constants.CART_MAX_CAPACITY - len(self.cartContents)) / constants.CART_MAX_CAPACITY
 
         mousePos = pygame.mouse.get_pos()
         playerPos = (self.playerX, self.playerY)
@@ -157,9 +159,15 @@ class Game():
 
     #Check whether the shopping list is empty, and that the player then won
     def checkGameOver(self):
+        # If we have won
         if len(self.shoppingListEntries.keys()) == 0:
+            # Stop ticking the game
             game.isGameTicking = False
+            # Clear all particles
+            particles.clear()
+            # Go to the game over menu
             menuhandler.setMenu("gameFinishedMenu", game)
+            # Save our score
             self.lastLevelScoreboard.put(game.playerName, math.floor((time.time() - game.levelStartTime) * 100))
 
 
@@ -185,61 +193,77 @@ class Game():
         return self.currentLevel.getColliders()
 
     def generateLevelItemsAndShoppingList(self):
+        # Simplified to just grab a random set of items, instead of whole groups to get a more varied shopping list
+        
         # Get a copy of the spawning groups so we can remove stuff from it without worrying about modifying the level itself
-        ungeneratedSpawningGroups = self.currentLevel.getLevelItemSpawningGroups().copy()
+        spawningGroups = self.currentLevel.getLevelItemSpawningGroups().copy()
 
-        # How many more items to add to the shopping list
-        remainingShoppingListSpace: int = constants.MAX_SHOPPING_LIST_COUNT
+        # Loop through all spawning groups in the level and generate the items
+        for spawningGroup in spawningGroups:
+            self.currentLevelItems += spawningGroup.generateRandom()
+        
+        # Randomise the order (since items is currently in order of spawning)
+        # Also do this on a seperate list since the order of currentLevelItems results in items rendering differently
+        # which results in it being random and not as neat
+        randomisedItemList = self.currentLevelItems.copy()
+        random.shuffle(randomisedItemList)
 
-        # Once each spawning group has its content generated its removed,
-        # and this just loops until everything has been removed,
-        # this way you can go randomly through it.
+        # Grab the first (MAX_SHOPPING_LIST_COUNT) number of items or the whole list if it is not big enough
+        shoppingListItems = self.currentLevelItems[0 : min(len(self.currentLevelItems), constants.MAX_SHOPPING_LIST_COUNT) -1]
 
-        # ...but ye be warned, while loops be dangerous terriory
-        while len(ungeneratedSpawningGroups) != 0:
-            spawnGroup: ItemSpawningGroup = pickRandomOfList(ungeneratedSpawningGroups)
+        for shoppingListItem in shoppingListItems:
+            # store the item type as a local variable to save writing the full name
+            itemType = shoppingListItem.itemType
 
-            itemType, count, items = spawnGroup.generateRandom()
-            
-            # Make sure that the number added to the shopping list wont exceed the remaining space on it
-            countOfItemsForShoppingList: int = min(count, remainingShoppingListSpace)
+            # Add a number to an entry to track how much of this entry is on the list
+            if not itemType in self.shoppingListEntries:
+                self.shoppingListEntries[itemType] = 0
 
-            if countOfItemsForShoppingList != 0:
-                # Add the amount to the entry, or create the entry
-                if itemType in self.shoppingListEntries:
-                    self.shoppingListEntries[itemType] += countOfItemsForShoppingList
-                else:
-                    self.shoppingListEntries[itemType] = countOfItemsForShoppingList
-
-            # Update the remaining space
-            remainingShoppingListSpace -= countOfItemsForShoppingList
-            
-            # Add in all of the items
-            self.currentLevelItems += items
-
-            # Remove it from the ungenerated ones
-            ungeneratedSpawningGroups.remove(spawnGroup)
+            self.shoppingListEntries[itemType] += 1
 
     def updateShoppingList(self):
-        self.shoppingListText = []
+        # Clear all entries since they will be remade
+        self.shoppingListDisplay = []
 
+        # Itterate all the items to be collected
         for k in self.shoppingListEntries:
-            self.shoppingListText.append(k + " x" + str(self.shoppingListEntries[k]))
+            #Put the current item ID (used to generate an icon), then the text to be displayed after, packaged as an array
+            self.shoppingListDisplay.append([ k, (k + " x" + str(self.shoppingListEntries[k])) ])
 
     def drawShoppingList(self, screen):
+        # How tall the list should be, it covers alot of the level so dont make it too high
         height = 100
+        # Draw the white "paper" background
         pygame.draw.rect(screen, (255, 255, 255), pygame.Rect((423, 613 -(height + 20)), (423, height + 20)))
 
+        # calculate the position of the first line
         yPos = 613 -(height + 20)
 
-        for line in self.shoppingListText:
-            screen.blit(shoppingListFont.render(line, True, (0, 0, 0)), (430, yPos))
+        for entry in self.shoppingListDisplay:
+
+            # If we have gone over the screen height
+            if (yPos > 613):
+                break # Skip rendering the rest to save on lag
+
+            # Draw the item icon to help the player find it
+            screen.blit(
+                pygame.transform.scale(
+                    getImageFromCacheOrLoad(item(entry[0] + ".png")), # Get the image for the current entry
+                    (20, 20) #Set the size since the icon needs to be a little smaller
+                    ),
+                (430, yPos +10))
+
+            # Render the text - Defined by main.py#updateShoppingList
+            screen.blit(shoppingListFont.render(entry[1], True, (0, 0, 0)), (450, yPos))
+            # Move to the next line
             yPos += shoppingListFontHeight + 5
 
+    # Called by the settings menu to change audio / music enabled
     def toggleAudio(self):
         self.audio = not self.audio
         print("Toggled audio: " + str(self.audio))
 
+    # Called by the settings menu to change audio / music enabled
     def toggleMusic(self):
         self.music = not self.music
         print("Toggled music: " + str(self.music))
@@ -257,8 +281,9 @@ while running:
 
     if (game.inGame and game.isGameTicking):
         #Some things are only ticked when the game is running, and playing
-        playerhandler.updatePlayer(game)
+        playerhandler.updatePlayer(game, particles)
         game.tickCartItems()
+        particles.tick()
         for checkoutArea in game.currentLevel.getCheckoutAreas():
             checkoutArea.tick(game)
 
@@ -271,6 +296,7 @@ while running:
             checkoutArea.draw(screen)
         screen.blit(timerBackground, (0, 0))
         screen.blit(gameFont.render(game.getTimeText(False), False, (0, 0, 0)), (79, 19))
+        particles.draw(screen)
 
     menuhandler.drawCurrent(screen, game)
 
